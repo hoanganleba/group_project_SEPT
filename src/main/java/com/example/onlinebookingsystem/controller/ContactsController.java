@@ -1,7 +1,6 @@
 package com.example.onlinebookingsystem.controller;
 
 import com.example.onlinebookingsystem.model.Contact;
-import com.example.onlinebookingsystem.repository.ContactRepository;
 import com.example.onlinebookingsystem.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
