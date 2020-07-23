@@ -4,16 +4,17 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Collection;
+
+import java.util.List;
 
 @Entity
-@Table(name = "account")
-public class User {
+@Table(name = "customer")
+public class Customer {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -27,25 +28,30 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "review_id")
-    private String reviewId;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Booking> bookingList;
+    private List<Review> reviewList;
 
-    @Column(name = "user_role")
-    private String userRole;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Booking> bookingList;
 
-    public User(){
+    public Customer(){}
+
+    public Customer(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -81,27 +87,19 @@ public class User {
         this.password = password;
     }
 
-    public String getReviewId() {
-        return reviewId;
+    public List<Review> getReviewList() {
+        return reviewList;
     }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 
-    public Collection<Booking> getBookingList() {
+    public List<Booking> getBookingList() {
         return bookingList;
     }
 
-    public void setBookingList(Collection<Booking> bookingList) {
+    public void setBookingList(List<Booking> bookingList) {
         this.bookingList = bookingList;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
     }
 }

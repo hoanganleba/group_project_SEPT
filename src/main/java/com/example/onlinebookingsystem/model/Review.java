@@ -7,19 +7,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "booking")
-public class Booking {
+@Table(name = "review")
+public class Review {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "start_datetime")
-    private String startDateTime;
+    @Column(name = "rating")
+    private Number rating;
 
-    @Column(name = "end_datetime")
-    private String endDateTime;
+    @Column(name = "comment")
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -28,12 +28,12 @@ public class Booking {
     @JsonIgnore
     private Customer customer;
 
-    public Booking() {
+    public Review(){
     }
 
-    public Booking(String startDateTime, String endDateTime, Customer customer) {
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
+    public Review(Number rating, String comment, Customer customer) {
+        this.rating = rating;
+        this.comment = comment;
         this.customer = customer;
     }
 
@@ -45,20 +45,20 @@ public class Booking {
         this.id = id;
     }
 
-    public String getStartDateTime() {
-        return startDateTime;
+    public Number getRating() {
+        return rating;
     }
 
-    public void setStartDateTime(String startDateTime) {
-        this.startDateTime = startDateTime;
+    public void setRating(Number rating) {
+        this.rating = rating;
     }
 
-    public String getEndDateTime() {
-        return endDateTime;
+    public String getComment() {
+        return comment;
     }
 
-    public void setEndDateTime(String endDateTime) {
-        this.endDateTime = endDateTime;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Customer getCustomer() {
@@ -69,5 +69,3 @@ public class Booking {
         this.customer = customer;
     }
 }
-
-
