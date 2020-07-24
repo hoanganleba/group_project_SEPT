@@ -43,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
         this.reviewRepository.save(new Review(1,"Hello", customer));
         this.reviewRepository.save(new Review(2,"Hello", customer));
 
-        this.reviewRepository.save(new Review(5,"Hello", customer1));
+        this.reviewRepository.save(new Review(1,"Hello", customer1));
         this.reviewRepository.save(new Review(1,"Hello", customer1));
         this.reviewRepository.save(new Review(2,"Hello", customer1));
     }
