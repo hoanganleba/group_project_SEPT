@@ -2,13 +2,12 @@ package com.example.onlinebookingsystem.controller;
 
 import com.example.onlinebookingsystem.model.Customer;
 import com.example.onlinebookingsystem.model.Review;
+import com.example.onlinebookingsystem.repository.CustomerRepository;
 import com.example.onlinebookingsystem.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -16,10 +15,12 @@ import java.util.Optional;
 public class ReviewController {
 
     private final ReviewRepository reviewRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public ReviewController(ReviewRepository reviewRepository) {
+    public ReviewController(ReviewRepository reviewRepository, CustomerRepository customerRepository) {
         this.reviewRepository = reviewRepository;
+        this.customerRepository = customerRepository;
     }
 
     @GetMapping("/customers/{customerId}/reviews")
@@ -28,44 +29,37 @@ public class ReviewController {
         return reviewRepository.findByCustomerId(customerId);
     }
 
-    @GetMapping(value = "/customers/{customerId}/reviews/{reviewId}")
-
-    public ResponseEntity<Review> getReviewById(
-           @PathVariable("reviewId") Integer reviewId) {
-
-        Optional<Review> Review = reviewRepository.findById(reviewId);
-        return Review.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
-
-    }
     @PostMapping(value = "/customers/{customerId}/reviews")
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        reviewRepository.save(review);
-        return new ResponseEntity<>(review, HttpStatus.CREATED);
+    public Review createReview(@RequestBody Review review, @PathVariable Integer customerId) {
+        return customerRepository.findById(customerId).map(customer -> {
+            review.setCustomer(customer);
+            return reviewRepository.save(review);
+        }).orElseThrow(() -> new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found"));
     }
-
-
 
     @PutMapping(value = "/customers/{customerId}/reviews/{reviewId}")
-    public Optional<ResponseEntity<Review>> updateReview(@PathVariable Integer reviewId, @RequestBody Review reviewReq) {
-        return reviewRepository.findById(reviewId).map(review -> {
-            review.setRating(reviewReq.getRating());
-            review.setComment(reviewReq.getComment());
-            review.setCustomer(reviewReq.getCustomer());
+    public ResponseEntity<Review> updateReview(@PathVariable Integer reviewId, @RequestBody Review newReview, @PathVariable Integer customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found"));
 
+        return reviewRepository.findById(reviewId).map(review -> {
+            review.setRating(newReview.getRating());
+            review.setComment(newReview.getComment());
+            newReview.setCustomer(customer);
             reviewRepository.save(review);
-            return new ResponseEntity<>(HttpStatus.OK);
-        });
+            return ResponseEntity.ok(newReview);
+        }).orElseThrow(() -> new ResourceNotFoundException("Review [reviewId="+reviewId+"] can't be found"));
     }
 
     @DeleteMapping(value = "/customers/{customerId}/reviews/{reviewId}")
-    public Optional<ResponseEntity<Object>> deleteCustomer(@PathVariable Integer reviewId) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable Integer reviewId, @PathVariable Integer customerId) {
+
+        if (!customerRepository.existsById(customerId)) {
+            throw new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found");
+        }
+
         return reviewRepository.findById(reviewId).map(review -> {
             reviewRepository.delete(review);
             return ResponseEntity.ok().build();
-        });
+        }).orElseThrow(() -> new ResourceNotFoundException("Review [reviewId="+reviewId+"] can't be found"));
     }
-
-
-
 }
