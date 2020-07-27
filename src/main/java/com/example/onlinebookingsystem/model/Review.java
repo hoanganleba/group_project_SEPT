@@ -16,7 +16,7 @@ public class Review {
     private int id;
 
     @Column(name = "rating")
-    private Number rating;
+    private Integer rating;
 
     @Column(name = "comment")
     private String comment;
@@ -31,7 +31,7 @@ public class Review {
     public Review(){
     }
 
-    public Review(Number rating, String comment, Customer customer) {
+    public Review(Integer rating, String comment, Customer customer) {
         this.rating = rating;
         this.comment = comment;
         this.customer = customer;
@@ -45,11 +45,11 @@ public class Review {
         this.id = id;
     }
 
-    public Number getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Number rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
