@@ -36,7 +36,8 @@ export default class Form extends Component {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
                 },
                 body: JSON.stringify({ id: this.state.id, name: this.state.name })
             }).then(res => res.json())
@@ -47,7 +48,8 @@ export default class Form extends Component {
                 method: 'put',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
                 },
                 body: JSON.stringify({ check_in: this.state.check_in, check_out: this.state.check_out, type: this.state.type, comment: this.state.comment, rating: this.state.rating  })
             }).then(res => res.json())

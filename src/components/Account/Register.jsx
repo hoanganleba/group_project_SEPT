@@ -45,28 +45,28 @@ export class Register extends React.Component {
                     <div className="form">
                         <div className="form-group">
                             <label>First name: </label>
-                            <input type="text" id="fname" name="fname" value={this.state.fname} onChange={this.handleChange} required></input>                      
+                            <input type="text" id="fname" name="fname" value={this.state.fname} onChange={this.handleChange.bind(this)}required></input>                      
                         </div>
                         <div className="form-group">
                             <label>Last name: </label>
-                            <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange} required></input>                      
+                            <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange.bind(this)} required></input>                      
                         </div>
                         <div className="form-group">
                             <label>Phone: </label>
-                            <input type="text" id="phone" name="phone" value={this.state.phone} onChange={this.handleChange} required></input>                       
+                            <input type="text" id="phone" name="phone" value={this.state.phone} onChange={this.handleChange.bind(this)} required></input>                       
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
-                            <input type="text" name="email" id="email"/>                        
+                            <input type="text" name="email" id="email" value={this.state.email} onChange={this.handleChange.bind(this)}required />                        
                         </div>
                         <div className="form-group">
                             <label>Password:</label>
-                            <input type="password" name="password" id="password"/>                        
+                            <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange.bind(this)} required/>                        
                         </div>
                     </div>
                 </div>
                 <div className="footer">        
-                    <p><button onClick={this.save} className="btn btn-success">Register</button></p>             
+                    <p><button onClick={this.save.bind(this)} className="btn btn-success">Register</button></p>             
                 </div>
             </div>
         )

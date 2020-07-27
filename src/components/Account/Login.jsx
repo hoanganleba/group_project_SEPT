@@ -22,15 +22,29 @@ export class Login extends React.Component {
         this.setState(obj);
     }
     login(){
+        var user = {email: this.state.email, password: this.state.password}
         fetch(url, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({email: this.state.email, password: this.state.password })
-        }).then(res => res.json())
-            .then(json => this.fetchData()) 
+            body: JSON.stringify(user)
+        })  .then(res=>res.json())
+        .then(data=>{
+            if(data.result === 'authenticated'){
+                alert('Login successfully')
+                this.setState({token:data.bearer})
+                window.sessionStorage.setItem('authenticated', 1)
+                window.sessionStorage.setItem('token', this.state.token)
+                window.location.reload()
+            }  
+            else{
+                alert('Wrong email or password')
+                window.sessionStorage.setItem('authenticated', 0)
+            }
+        }
+        )
     }
     render(){
         return(
