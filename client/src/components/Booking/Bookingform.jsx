@@ -1,7 +1,11 @@
+import "bootstrap/dist/css/bootstrap.css";
+import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
 import "../../style.scss";
 import "../../w3school.css";
 
 import React, { Component } from "react";
+import Carousel from 'react-bootstrap/Carousel';
+
 
 const url = "http://localhost:3000";
 export default class Bookingform extends Component {
@@ -17,7 +21,7 @@ export default class Bookingform extends Component {
     this.save = this.save.bind(this);
   }
   fetchData() {
-    fetch(url+'/customers/{customerId}/bookings')
+    fetch(url + '/customers/{customerId}/bookings')
       .then((res) => res.json())
       .then((json) => this.setState({ bookings: json }));
   }
@@ -31,20 +35,22 @@ export default class Bookingform extends Component {
   }
   save(_id) {
     if (this.state.addNew === true) {
-      fetch(url+'/customers/{customerId}/bookings', {
+      fetch(url + '/customers/{customerId}/bookings', {
         method: "post",
         headers: {
           "Content-Type": "application/json",
           'Accept': "application/json",
         },
-        body: JSON.stringify({ _id: this.state._id,
-          startDateTime: this.state.startDateTime,endDateTime: this.state.endDateTime,
-          type: this.state.type }),
+        body: JSON.stringify({
+          _id: this.state._id,
+          startDateTime: this.state.startDateTime, endDateTime: this.state.endDateTime,
+          type: this.state.type
+        }),
       })
         .then((res) => res.json())
         .then((json) => this.fetchData());
     } else {
-      fetch(url+'/customers/{customerId}/bookings/'+_id, {
+      fetch(url + '/customers/{customerId}/bookings/' + _id, {
         method: "put",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +68,9 @@ export default class Bookingform extends Component {
         .then((json) => this.fetchData());
     }
   }
+
   render() {
+
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
@@ -140,28 +148,35 @@ export default class Bookingform extends Component {
             <div className="w3-container">
               <h2 className="w3-text-green">Booking Tennis Court</h2>
 
-              <div className="w3-display-container mySlides">
-                <img
-                  src={require("./images/tennis_court_1.jpg")}
-                  style={{ width: "100%", height: 500, marginBottom: -6 }}
-                  alt={"court 1"}
-                />
-                <div className="w3-display-bottomleft w3-container w3-black">
-                  <p>Normal Court</p>
-                </div>
-              </div>
-              <br></br>
-              <div className="w3-display-container mySlides">
-                <img
-                  src={require("./images/tennis_court_3.jpg")}
-                  style={{ width: "100%", height: 500, marginBottom: -6 }}
-                  alt={"court 1"}
-                />
-                <div className="w3-display-bottomleft w3-container w3-black">
-                  <p>Premium Court</p>
-                </div>
-              </div>
+              <Carousel>
+                <Carousel.Item style={{ width: "100%", height: 500, marginBottom: -6 }}>
+                  <img
+                    src={require("./images/tennis_court_1.jpg")}
+                    style={{ width: "100%", height: 500, marginBottom: -6 }}
+                    alt={"court 1"}
+                  />
+                  <Carousel.Caption>
+                    <h3>Normal Court</h3>
+                  </Carousel.Caption>
+
+                </Carousel.Item>
+
+
+                <Carousel.Item >
+                  <img
+                    src={require("./images/tennis_court_3.jpg")}
+                    style={{ width: "100%", height: 500, marginBottom: -6 }}
+                    alt={"court 1"}
+                  />
+                  <Carousel.Caption>
+
+                    <h3>Premium Court</h3>
+
+                  </Carousel.Caption>
+                </Carousel.Item>
+              </Carousel>
             </div>
+
 
             <div className="w3-container">
               <h4>
