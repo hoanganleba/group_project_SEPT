@@ -1,23 +1,23 @@
 import React from "react";
 import "../../w3school.css";
+import axios from "axios";
+import userService from "../../services/userService"
 
-const url = 'http://localhost:3000';
+const url = "http://localhost:8080/api";
 export default class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Booking: [],
+      bookingList: [],
       startDateTime: "",
       endDateTime: "",
       type: "",
     };
   }
-  fetchData() {
-    fetch(url+'/customers/{customerId}/bookings')
-      .then((res) => res.json())
-      .then((json) => this.setState({ Booking: json }));
+  async fetchData() {
+    const {data} = await userService.getBookingHistory(1);
+    return this.setState({ bookingList: data });
   }
-
   componentDidMount() {
     this.fetchData();
   }
@@ -26,13 +26,10 @@ export default class List extends React.Component {
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
-  delete(_id) {
+  delete(id) {
     if (window.confirm("Do you want to delete?")) {
-      fetch(url + "/customers/{customerId}/bookings/" + _id, {
-        method: "delete",
-      })
-        .then((res) => res.json())
-        .then((json) => this.fetchData());
+      axios.delete(url + "/customers/1/bookings/" + id)
+      return this.fetchData()
     }
   }
   edit(_id, startDateTime, endDateTime, type) {
@@ -44,11 +41,11 @@ export default class List extends React.Component {
   }
 
   save(_id) {
-    fetch(url+'/customers/{customerId}/bookings/'+_id, {
+    fetch(url + "/customers/{customerId}/bookings/" + _id, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         _id: this.state._id,
@@ -65,35 +62,42 @@ export default class List extends React.Component {
       <div>
         <div className="w3-content w3-border-left w3-border-right">
           <table className="w3-table-all">
-            <tr>
-              <th>Check in</th>
-              <th>Check out</th>
-              <th>Court Type</th>
-            </tr>
-            {this.state.bookings.map((book) => (
+            <thead>
               <tr>
-                <td>{book.startDateTime}</td>
-                <td>{book.endDateTime}</td>
-                <td>{book.type}</td>
-                <button
-                  className="btn-success w3-padding"
-                  onClick={this.edit.bind(
-                    this,
-                    book.startDateTime,
-                    book.endDateTime,
-                    book.type
-                  )}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn-danger w3-padding"
-                  onClick={this.delete.bind(this, book._id)}
-                >
-                  Delete
-                </button>
+                <th>Check in</th>
+                <th>Check out</th>
+                <th>Court Type</th>
+                <th>Action</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {this.state.bookingList.map((book, index) => (
+                <tr key={index}>
+                  <td>{book.startDateTime}</td>
+                  <td>{book.endDateTime}</td>
+                  <td>{book.type}</td>
+                  <td>
+                    <button
+                      className="btn-success w3-padding"
+                      onClick={this.edit.bind(
+                        this,
+                        book.startDateTime,
+                        book.endDateTime,
+                        book.type
+                      )}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn-danger w3-padding"
+                      onClick={this.delete.bind(this, book.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
           <button onClick={this.save.bind(this)}>Save</button>
         </div>

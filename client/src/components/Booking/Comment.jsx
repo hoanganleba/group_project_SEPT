@@ -2,7 +2,7 @@ import "../../style.scss";
 import React, { Component } from "react";
 import "../../w3school.css";
 
-const url = 'http://localhost:3000';
+const url = "http://localhost:3000";
 export default class Bookinghistory extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ export default class Bookinghistory extends Component {
     this.save = this.save.bind(this);
   }
   fetchData() {
-    fetch(url+'/customers/{customerId}/reviews')
+    fetch(url + "/customers/{customerId}/reviews")
       .then((res) => res.json())
       .then((json) => this.setState({ bookings: json }));
   }
@@ -29,27 +29,29 @@ export default class Bookinghistory extends Component {
   }
   save(_id) {
     if (this.state.addNew === true) {
-      fetch(url+'/customers/{customerId}/reviews', {
+      fetch(url + "/customers/{customerId}/reviews", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ _id: this.state._id,
+        body: JSON.stringify({
+          _id: this.state._id,
           comment: this.state.comment,
-          rating: this.state.rating }),
+          rating: this.state.rating,
+        }),
       })
         .then((res) => res.json())
         .then((json) => this.fetchData());
     } else {
-      fetch(url+'/customers/{customerId}/reviews/'+_id, {
+      fetch(url + "/customers/{customerId}/reviews/" + _id, {
         method: "put",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          _id:this.state._id,
+          _id: this.state._id,
           comment: this.state.comment,
           rating: this.state.rating,
         }),

@@ -1,9 +1,11 @@
+import React, { Component } from "react";
+import Cookies from "universal-cookie";
 import "../../style.scss";
 import "../../w3school.css";
+const cookies = new Cookies();
 
-import React, { Component } from "react";
 
-const url = "http://localhost:3000";
+const url = "http://localhost:8080/api";
 export default class Bookingform extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,9 @@ export default class Bookingform extends Component {
     this.save = this.save.bind(this);
   }
   fetchData() {
-    fetch(url+'/customers/{customerId}/bookings')
+    fetch(url + "/customers/1/bookings", {
+      headers: {'Authorization': 'Bearer '+ cookies.get('jwt-token')}
+    })
       .then((res) => res.json())
       .then((json) => this.setState({ bookings: json }));
   }
@@ -31,31 +35,33 @@ export default class Bookingform extends Component {
   }
   save(_id) {
     if (this.state.addNew === true) {
-      fetch(url+'/customers/{customerId}/bookings', {
+      fetch(url + "/customers/{customerId}/bookings", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          'Accept': "application/json",
-        },
-        body: JSON.stringify({ _id: this.state._id,
-          startDateTime: this.state.startDateTime,endDateTime: this.state.endDateTime,
-          type: this.state.type }),
-      })
-        .then((res) => res.json())
-        .then((json) => this.fetchData());
-    } else {
-      fetch(url+'/customers/{customerId}/bookings/'+_id, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-          'Accept': "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
           _id: this.state._id,
           startDateTime: this.state.startDateTime,
           endDateTime: this.state.endDateTime,
           type: this.state.type,
-
+        }),
+      })
+        .then((res) => res.json())
+        .then((json) => this.fetchData());
+    } else {
+      fetch(url + "/customers/{customerId}/bookings/" + _id, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _id: this.state._id,
+          startDateTime: this.state.startDateTime,
+          endDateTime: this.state.endDateTime,
+          type: this.state.type,
         }),
       })
         .then((res) => res.json())

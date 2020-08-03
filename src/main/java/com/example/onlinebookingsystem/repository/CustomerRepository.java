@@ -1,8 +1,8 @@
 package com.example.onlinebookingsystem.repository;
 
 import com.example.onlinebookingsystem.model.Customer;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RepositoryRestResource
-public interface CustomerRepository extends CrudRepository<Customer, Integer> {}
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+    Customer findByUserName(String userName);
+}

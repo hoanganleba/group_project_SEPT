@@ -1,31 +1,35 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Index from './components/Account/Index';
+import BookingForm from './components/Booking/Bookingform';
+import Comment from './components/Booking/Comment';
+import NavBar from './components/NavBar';
+import BookingHistory from './components/Booking/Bookinghistory';
+import PrivateRoute from './components/PrivateRoute';
 import './App.scss';
-import Index from './components/Account/Index.jsx';
-import Bookingform from "./components/Booking/Bookingform";
-import Comment from "./components/Booking/Comment";
-import './w3school.css'
-import {Link, BrowserRouter} from "react-router-dom";
-import Route from "react-router-dom/Route"
-import Switch from "react-router-dom/Switch"
-import Header from "./components/Header";
-import Bookinghistory from "./components/Booking/Bookinghistory";
+import './w3school.css';
 
-class App extends React.Component {
-  render() {
-    return(
-        <BrowserRouter>
-          <div>
-            <Header />
-              <br/>
-              <br/>
-              <br/>
-
-              <Route exact path="/" component={Bookingform} />
-              <Route exact path="/comment" component={Comment} />
-              <Route exact path="/history" component={Bookinghistory} />
-          </div>
-        </BrowserRouter>
-    )
-  }
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Index} />
+        <div style={{ marginTop: '90px' }}>
+          <PrivateRoute path="/booking">
+            <NavBar />
+            <BookingForm />
+          </PrivateRoute>
+          <PrivateRoute path="/comment">
+            <NavBar />
+            <Comment />
+          </PrivateRoute>
+          <PrivateRoute path="/history">
+            <NavBar />
+            <BookingHistory />
+          </PrivateRoute>
+        </div>
+      </Switch>
+    </Router>
+  );
 }
 export default App;

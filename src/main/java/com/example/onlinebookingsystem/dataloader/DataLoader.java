@@ -26,8 +26,8 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Customer customer = new Customer(  "An", "Le", "hoanganleba@gmail.com", "123");
-        Customer customer1 = new Customer("Hoang", "Le", "hellosomething@gmail.com", "456");
+        Customer customer = new Customer(  "An", "Le", "hoanganleba@gmail.com","An", "123", "ROLE_USER");
+        Customer customer1 = new Customer("Hoang", "Le", "hellosomething@gmail.com","Hello", "456", "ROLE_USER");
         customerRepository.save(customer);
         customerRepository.save(customer1);
 
