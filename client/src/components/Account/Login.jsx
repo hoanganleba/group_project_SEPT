@@ -24,12 +24,15 @@ class Login extends Component {
       .then((res) => {
         cookies.set("jwt-token", res.data, { path: "/" })
         this.setState({ redirect: "/booking" });
+        
       }).catch(error => alert("Invalid"))
+      
   }
 
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />
+      
     }
     return (
       <div className="base-container" ref={this.props.containerRef}>

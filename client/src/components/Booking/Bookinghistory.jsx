@@ -9,13 +9,14 @@ export default class List extends React.Component {
     super(props);
     this.state = {
       bookingList: [],
+      _id:"",
       startDateTime: "",
       endDateTime: "",
       type: "",
     };
   }
   async fetchData() {
-    const {data} = await userService.getBookingHistory(1);
+    const {data} = await userService.getBookingHistory(2);
     return this.setState({ bookingList: data });
   }
   componentDidMount() {
@@ -26,9 +27,9 @@ export default class List extends React.Component {
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
-  delete(id) {
+  delete(_id) {
     if (window.confirm("Do you want to delete?")) {
-      axios.delete(url + "/customers/1/bookings/" + id)
+      axios.delete(url + "/customers/1/bookings/" + _id)
       return this.fetchData()
     }
   }

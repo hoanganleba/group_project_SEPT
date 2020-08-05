@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+
 import "../../style.scss";
 import "../../w3school.css";
+import userService from "../../services/userService";
 const cookies = new Cookies();
+
 
 
 const url = "http://localhost:8080/api";
@@ -10,39 +13,45 @@ export default class Bookingform extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addNew: true,
+      customerId:0,
+      booking:[],
       startDateTime: "",
       endDateTime: "",
       type: "",
+      addNew: true,
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
-  }
-  fetchData() {
-    fetch(url + "/customers/1/bookings", {
-      headers: {'Authorization': 'Bearer '+ cookies.get('jwt-token')}
-    })
-      .then((res) => res.json())
-      .then((json) => this.setState({ bookings: json }));
-  }
-  componentDidMount() {
-    this.fetchData();
   }
   handleChange(e) {
     var obj = {};
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
-  save(_id) {
-    if (this.state.addNew === true) {
-      fetch(url + "/customers/{customerId}/bookings", {
+  async fetchData() {
+  const {data}= await userService.get();
+    return this.setState({
+      booking: data.booking,
+      customerId:data.id
+    })
+   
+  }
+  componentDidMount(){
+    this.fetchData();
+  }
+  
+  save() {
+      var id =this.state.customerId;
+      fetch(url + "/customers/"+ id +"/bookings", {
         method: "post",
         headers: {
+          headers: {'Authorization': 'Bearer '+ cookies.get('jwt-token')},
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          _id: this.state._id,
+          
           startDateTime: this.state.startDateTime,
           endDateTime: this.state.endDateTime,
           type: this.state.type,
@@ -50,25 +59,11 @@ export default class Bookingform extends Component {
       })
         .then((res) => res.json())
         .then((json) => this.fetchData());
-    } else {
-      fetch(url + "/customers/{customerId}/bookings/" + _id, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          _id: this.state._id,
-          startDateTime: this.state.startDateTime,
-          endDateTime: this.state.endDateTime,
-          type: this.state.type,
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => this.fetchData());
+ 
     }
-  }
+  
   render() {
+  
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
@@ -114,6 +109,7 @@ export default class Bookingform extends Component {
                       required
                     />
 
+
                     <br></br>
 
                     <label>Court Type:</label>
@@ -131,7 +127,7 @@ export default class Bookingform extends Component {
                     <center>
                       <button
                         className="w3-button w3-green"
-                        onClick={this.save}
+                        onClick={this.save.bind(this)}
                       >
                         Submit
                       </button>

@@ -6,5 +6,9 @@ export default {
     },
     getBookingHistory(id) {
         return authAxios.get(`/customers/${id}/bookings`);
-    }
+    },
+    getReview(id){
+        return authAxios.get(`/customers/${id}/reviews`);
+    },
+
 }
