@@ -30,7 +30,6 @@ class NavBar extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    console.log()
     return (  
       <div className="w3-top" style={{ zIndex: '1000' }}>
         <div className="w3-bar w3-white w3-wide w3-padding w3-card">

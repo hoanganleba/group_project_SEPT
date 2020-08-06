@@ -1,61 +1,33 @@
-import React from "react";
-import "../../w3school.css";
-import axios from "axios";
-import userService from "../../services/userService"
-
-const url = "http://localhost:8080/api";
-export default class List extends React.Component {
+import React from 'react';
+import '../../w3school.css';
+import userService from '../../services/userService';
+class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      customerId: 0,
       bookingList: [],
-      startDateTime: "",
-      endDateTime: "",
-      type: "",
+      startDateTime: '',
+      endDateTime: '',
+      type: '',
     };
   }
   async fetchData() {
-    const {data} = await userService.getBookingHistory(1);
-    return this.setState({ bookingList: data });
+    const { data } = await userService.get();
+    return this.setState({
+      bookingList: data.bookingList,
+      customerId: data.id,
+    });
   }
   componentDidMount() {
     this.fetchData();
   }
-  handleChange(e) {
-    var obj = {};
-    obj[e.target.name] = e.target.value;
-    this.setState(obj);
-  }
-  delete(id) {
-    if (window.confirm("Do you want to delete?")) {
-      axios.delete(url + "/customers/1/bookings/" + id)
-      return this.fetchData()
+  delete(customerId, bookingId) {
+    if (window.confirm('Do you want to cancel?')) {
+      userService.delete(customerId, bookingId);
+      window.location.reload();
+      return this.fetchData();
     }
-  }
-  edit(_id, startDateTime, endDateTime, type) {
-    this.setState({
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
-      type: type,
-    });
-  }
-
-  save(_id) {
-    fetch(url + "/customers/{customerId}/bookings/" + _id, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        _id: this.state._id,
-        startDateTime: this.state.startDateTime,
-        endDateTime: this.state.endDateTime,
-        type: this.state.type,
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => this.fetchData());
   }
   render() {
     return (
@@ -78,30 +50,24 @@ export default class List extends React.Component {
                   <td>{book.type}</td>
                   <td>
                     <button
-                      className="btn-success w3-padding"
-                      onClick={this.edit.bind(
+                      className="btn-danger w3-padding"
+                      onClick={this.delete.bind(
                         this,
-                        book.startDateTime,
-                        book.endDateTime,
-                        book.type
+                        this.state.customerId,
+                        book.id
                       )}
                     >
-                      Edit
-                    </button>
-                    <button
-                      className="btn-danger w3-padding"
-                      onClick={this.delete.bind(this, book.id)}
-                    >
-                      Delete
+                      Cancel
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button onClick={this.save.bind(this)}>Save</button>
         </div>
       </div>
     );
   }
 }
+
+export default List;
