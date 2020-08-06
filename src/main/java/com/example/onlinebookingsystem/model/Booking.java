@@ -21,6 +21,9 @@ public class Booking {
     @Column(name = "end_datetime")
     private String endDateTime;
 
+    @Column(name = "type")
+    private String type;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @EqualsAndHashCode.Exclude
@@ -31,9 +34,10 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String startDateTime, String endDateTime, Customer customer) {
+    public Booking(String startDateTime, String endDateTime, String type, Customer customer) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+        this.type = type;
         this.customer = customer;
     }
 
@@ -59,6 +63,14 @@ public class Booking {
 
     public void setEndDateTime(String endDateTime) {
         this.endDateTime = endDateTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Customer getCustomer() {

@@ -31,9 +31,9 @@ public class DataLoader implements CommandLineRunner {
         customerRepository.save(customer);
         customerRepository.save(customer1);
 
-        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am", customer));
-        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am", customer));
-        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am", customer));
+        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am","premium", customer));
+        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am","premium", customer));
+        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am","premium", customer));
 
         this.bookingRepository.save(new Booking("2019-7-21 10:00am", "2019-7-21 10:00am", customer1));
         this.bookingRepository.save(new Booking("2019-7-21 10:00am", "2019-7-21 18:00am", customer1));
