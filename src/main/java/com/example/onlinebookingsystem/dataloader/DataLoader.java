@@ -26,18 +26,18 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Customer customer = new Customer(  "An", "Le", "hoanganleba@gmail.com", "123");
-        Customer customer1 = new Customer("Hoang", "Le", "hellosomething@gmail.com", "456");
+        Customer customer = new Customer(  "An", "Le", "hoanganleba@gmail.com", "An",  "123", "ROLE_USER");
+        Customer customer1 = new Customer("Hoang", "Le", "hellosomething@gmail.com","Hello" ,"456", "ROLE_USER");
         customerRepository.save(customer);
         customerRepository.save(customer1);
 
-        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am", customer));
-        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am", customer));
-        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am", customer));
+        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am", "normal", customer));
+        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am", "normal",customer));
+        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am","normal", customer));
 
-        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am", customer1));
-        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am", customer1));
-        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am", customer1));
+        this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am","normal", customer1));
+        this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am","normal", customer1));
+        this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am","normal", customer1));
 
         this.reviewRepository.save(new Review(5,"Hello", customer));
         this.reviewRepository.save(new Review(1,"Hello", customer));
