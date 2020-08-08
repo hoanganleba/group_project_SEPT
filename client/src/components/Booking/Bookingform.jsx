@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-
+import Carousel from 'react-bootstrap/Carousel';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
 import '../../style.scss';
 import '../../w3school.css';
 import userService from '../../services/userService';
@@ -17,7 +19,6 @@ class Bookingform extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
-
   handleChange(e) {
     var obj = {};
     obj[e.target.name] = e.target.value;
@@ -38,7 +39,7 @@ class Bookingform extends Component {
     return (
       <div className="w3-content w3-border-left w3-border-right">
         <div
-          className="w3-sidebar w3-light-grey w3-collapse "
+          className="w3-sidebar w3-light-grey w3-collapse"
           style={{ zIndex: 3, width: 260 }}
           id="mySidebar"
         >
@@ -116,27 +117,31 @@ class Bookingform extends Component {
           <div className="w3-container">
             <h2 className="w3-text-green">Booking Tennis Court</h2>
 
-            <div className="w3-display-container mySlides">
-              <img
-                src={require('./images/tennis_court_1.jpg')}
+            <Carousel>
+              <Carousel.Item
                 style={{ width: '100%', height: 500, marginBottom: -6 }}
-                alt={'court 1'}
-              />
-              <div className="w3-display-bottomleft w3-container w3-black">
-                <p>Normal Court</p>
-              </div>
-            </div>
-            <br></br>
-            <div className="w3-display-container mySlides">
-              <img
-                src={require('./images/tennis_court_3.jpg')}
-                style={{ width: '100%', height: 500, marginBottom: -6 }}
-                alt={'court 1'}
-              />
-              <div className="w3-display-bottomleft w3-container w3-black">
-                <p>Premium Court</p>
-              </div>
-            </div>
+              >
+                <img
+                  src={require('./images/tennis_court_1.jpg')}
+                  style={{ width: '100%', height: 500, marginBottom: -6 }}
+                  alt={'court 1'}
+                />
+                <Carousel.Caption>
+                  <h3>Normal Court</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+
+              <Carousel.Item>
+                <img
+                  src={require('./images/tennis_court_3.jpg')}
+                  style={{ width: '100%', height: 500, marginBottom: -6 }}
+                  alt={'court 1'}
+                />
+                <Carousel.Caption>
+                  <h3>Premium Court</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
           </div>
 
           <div className="w3-container">
@@ -158,25 +163,31 @@ class Bookingform extends Component {
                 </p>
               </div>
             </div>
-
-            <h4>
-              <strong>Facilities</strong>
-            </h4>
-            <div className="w3-row w3-large">
-              <div className="w3-col s6">
-                <p>
-                  <i className="fa fa-fw fa-shower" /> Bathroom
-                </p>
-                <p>
-                  <i className="fa fa-fw fa-wifi" /> WiFi
-                </p>
-              </div>
-              <div className="w3-col s6">
-                <p>
-                  <i className="fa fa-fw fa-cutlery" /> BBQ
-                </p>
-              </div>
+            <div className="w3-col s6">
+              <p>
+                <i className="fa fa-fw fa-male" /> Max people: 10
+              </p>
             </div>
+         
+
+          <h4>
+            <strong>Facilities</strong>
+          </h4>
+          <div className="w3-row w3-large">
+            <div className="w3-col s6">
+              <p>
+                <i className="fa fa-fw fa-shower" /> Bathroom
+              </p>
+              <p>
+                <i className="fa fa-fw fa-wifi" /> WiFi
+              </p>
+            </div>
+            <div className="w3-col s6">
+              <p>
+                <i className="fa fa-fw fa-cutlery" /> BBQ
+              </p>
+            </div>
+          </div>
           </div>
 
           <div className="w3-container" id="contact">
