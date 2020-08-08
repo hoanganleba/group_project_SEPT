@@ -1,12 +1,15 @@
 import "../../style.scss";
 import React, { Component } from "react";
 import "../../w3school.css";
+import axios from "axios";
+import userService from "../../services/userService"
 
-const url = 'http://localhost:3000';
+const url = "http://localhost:3000";
 export default class Bookinghistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      reviewList:[],
       addNew: true,
       comment: "",
       rating: "",
@@ -14,10 +17,9 @@ export default class Bookinghistory extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
-  fetchData() {
-    fetch(url+'/customers/{customerId}/reviews')
-      .then((res) => res.json())
-      .then((json) => this.setState({ bookings: json }));
+  async fetchData() {
+    const {data} = await userService.getReview(1);
+    return this.setState({ reviewList: data });
   }
   componentDidMount() {
     this.fetchData();
@@ -29,27 +31,29 @@ export default class Bookinghistory extends Component {
   }
   save(_id) {
     if (this.state.addNew === true) {
-      fetch(url+'/customers/{customerId}/reviews', {
+      fetch(url + "/customers/{customerId}/reviews", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ _id: this.state._id,
+        body: JSON.stringify({
+          _id: this.state._id,
           comment: this.state.comment,
-          rating: this.state.rating }),
+          rating: this.state.rating,
+        }),
       })
         .then((res) => res.json())
         .then((json) => this.fetchData());
     } else {
-      fetch(url+'/customers/{customerId}/reviews/'+_id, {
+      fetch(url + "/customers/{customerId}/reviews/" + _id, {
         method: "put",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          _id:this.state._id,
+          _id: this.state._id,
           comment: this.state.comment,
           rating: this.state.rating,
         }),
@@ -57,6 +61,19 @@ export default class Bookinghistory extends Component {
         .then((res) => res.json())
         .then((json) => this.fetchData());
     }
+  }
+  delete(_id) {
+    if (window.confirm("Do you want to delete?")) {
+      axios.delete(url + "/customers/1/reviews/" + _id)
+      return this.fetchData()
+    }
+  }
+  edit(_id, comment, rating) {
+    this.setState({
+      comment: comment,
+      rating: rating,
+     
+    });
   }
   render() {
     return (
@@ -103,10 +120,11 @@ export default class Bookinghistory extends Component {
                         value={this.state.rating}
                         onChange={this.handleChange}
                       >
-                        <option>Excellent</option>
-                        <option>Good</option>
-                        <option>Bad</option>
-                        <option>Horrible</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
                       </select>
                     </div>
                   </div>
@@ -123,61 +141,48 @@ export default class Bookinghistory extends Component {
           </div>
           <div className="w3-main w3-white" style={{ marginLeft: 360 }}>
             <div className="w3-container">
-              <div className="dialogbox">
-                <p>Name: Thinh</p>
-                <p>Rating: Excellent</p>
-                <div className="body">
-                  <span className="tip tip-up" />
-                  <div className="message">
-                    <span>
-                      I just made a comment about this comment box which is
-                      purely made from CSS.
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="dialogbox">
-                <p>Name: Minh</p>
-                <p>Rating: Good</p>
-                <div className="body">
-                  <span className="tip tip-up" />
-                  <div className="message">
-                    <span>
-                      I just made a comment about this comment box which is
-                      purely made from CSS.
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="dialogbox">
-                <p>Name: An</p>
-                <p>Rating: Bad</p>
-                <div className="body">
-                  <span className="tip tip-up" />
-                  <div className="message">
-                    <span>
-                      I just made a comment about this comment box which is
-                      purely made from CSS.
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="dialogbox">
-                <p>Name: Duc</p>
-                <p>Rating: Horrible</p>
-                <div className="body">
-                  <span className="tip tip-up" />
-                  <div className="message">
-                    <span>
-                      I just made a comment about this comment box which is
-                      purely made from CSS.
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <div>
+        <div className="w3-content w3-border-left w3-border-right">
+          <table className="w3-table-all">
+            <thead>
+              <tr>
+               
+                <th>rating</th>
+                <th>comment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.reviewList.map((review, index) => (
+                <tr key={index}>
+                  <td>{review.rating}</td>
+                  <td>{review.comment}</td>
+                  
+                  <td>
+                    <button
+                      className="btn-success w3-padding"
+                      onClick={this.edit.bind(
+                        this,
+                        review.rating,
+                        review.comment,
+                     
+                      )}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn-danger w3-padding"
+                      onClick={this.delete.bind(this, review.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={this.save.bind(this)}>Save</button>
+        </div>
+      </div>
             </div>
           </div>
         </div>

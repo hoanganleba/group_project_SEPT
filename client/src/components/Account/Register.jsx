@@ -1,70 +1,109 @@
 import React from 'react';
-const url = 'http://localhost:3000';
-export class Register extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstName: '',
-            lastName: '',
+import authService from '../../services/authService';
+class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      userName: '',
+      password: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-            email: '',
-            password: ''
-        }
-        this.handleChange = this.handleChange.bind(this);
+  handleChange(e) {
+    var obj = {};
+    obj[e.target.name] = e.target.value;
+    this.setState(obj);
+  }
 
-    }
-    fetchData(){
-        fetch(url)
-            .then(res => res.json())
-            .then(json => this.setState({ bookings: json}))
-    }
-    componentDidMount(){
-        this.fetchData()
-    }
-    handleChange(e){
-        var obj = {}
-        obj[e.target.name] = e.target.value
-        this.setState(obj);
-    }
-    save(){        
-        fetch(url+"/customers", {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({fname: this.state.fname, lname: this.state.lname, email: this.state.email, password: this.state.password })
-        }).then(res => res.json())
-            .then(json => this.fetchData())             
-    }
-    render() {
-        return(
-            <div className="base-container" ref = {this.props.containerRef}>
-                <div className="header">Register</div>
-                <div className="content">
-                    <div className="form">
-                        <div className="form-group">
-                            <label>First name: </label>
-                            <input type="text" id="fname" name="fname" value={this.state.fname} onChange={this.handleChange} required></input>                      
-                        </div>
-                        <div className="form-group">
-                            <label>Last name: </label>
-                            <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange} required></input>                      
-                        </div>
-                        <div className="form-group">
-                            <label>Email:</label>
-                            <input type="text" name="email" id="email"/>                        
-                        </div>
-                        <div className="form-group">
-                            <label>Password:</label>
-                            <input type="password" name="password" id="password"/>                        
-                        </div>
-                    </div>
-                </div>
-                <div className="footer">        
-                    <p><button onClick={this.save} className="btn btn-success">Register</button></p>             
-                </div>
+  save() {
+    const obj = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      userName: this.state.userName,
+      password: this.state.password,
+    };
+    authService
+      .signUp(obj)
+      .then(alert('Account created successfully'))
+      .catch((error) => alert(error));
+  }
+  render() {
+    return (
+      <div className="base-container" ref={this.props.containerRef}>
+        <div className="header">Register</div>
+        <div className="content">
+          <div className="form">
+            <div className="form-group">
+              <label>First name: </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleChange}
+                required
+              ></input>
             </div>
-        )
-    }
+            <div className="form-group">
+              <label>Last name: </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this.handleChange}
+                required
+              ></input>
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Username:</label>
+              <input
+                type="text"
+                name="userName"
+                id="userName"
+                value={this.state.userName}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div className="footer">
+          <p>
+            <button onClick={this.save.bind(this)} className="btn btn-success">
+              Register
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
 }
+export default Register

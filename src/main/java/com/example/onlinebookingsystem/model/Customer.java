@@ -25,8 +25,14 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "password")
     private String password;
+
+    @Column(name = "roles")
+    private String roles;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
@@ -40,11 +46,13 @@ public class Customer {
 
     public Customer(){}
 
-    public Customer(String firstName, String lastName, String email, String password) {
+    public Customer(String firstName, String lastName, String email, String userName, String password, String roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.userName = userName;
         this.password = password;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -79,12 +87,28 @@ public class Customer {
         this.email = email;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public List<Review> getReviewList() {
