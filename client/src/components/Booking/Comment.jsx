@@ -11,7 +11,6 @@ export default class Bookinghistory extends Component {
     this.state = {
       reviewList:[],
       addNew: true,
-      _id:"",
       comment: "",
       rating: "",
     };

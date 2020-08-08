@@ -4,7 +4,7 @@ import Index from './components/Account/Index';
 import BookingForm from './components/Booking/Bookingform';
 import Comment from './components/Booking/Comment';
 import NavBar from './components/NavBar';
-import BookingHistory from './components/Booking/Bookinghistory';
+import BookingHistory from './components/Booking/BookingHistory';
 import PrivateRoute from './components/PrivateRoute';
 import './App.scss';
 import './w3school.css';

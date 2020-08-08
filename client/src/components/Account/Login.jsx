@@ -1,38 +1,37 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import authService from '../../services/authService';
 
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
-      password: "",
-      redirect: null
+      userName: '',
+      password: '',
+      redirect: null,
     };
-    this.login = this.login.bind(this)
+    this.login = this.login.bind(this);
   }
 
   login(e) {
-    axios
-      .post("http://localhost:8080/authenticate", {
-        userName: this.state.userName,
-        password: this.state.password,
-      })
+    const obj = {
+      userName: this.state.userName,
+      password: this.state.password,
+    };
+    authService
+      .signIn(obj)
       .then((res) => {
-        cookies.set("jwt-token", res.data, { path: "/" })
-        this.setState({ redirect: "/booking" });
-        
-      }).catch(error => alert("Invalid"))
-      
+        cookies.set('jwt-token', res.data, { path: '/' });
+      })
+      .then(() => this.setState({ redirect: '/booking' }))
+      .catch((err) => alert('Invalid'));
   }
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />
-      
+      return <Redirect to={this.state.redirect} />;
     }
     return (
       <div className="base-container" ref={this.props.containerRef}>

@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../w3school.css';
-import { connect } from 'react-redux'; 
-import * as actions from '../actions/actions';
 import Cookies from "universal-cookie";
+import userService from '../services/userService';
 const cookies = new Cookies();
 class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: null,
+      userName: '',
     };
     this.signOut = this.signOut.bind(this);
   }
   signOut() {
     cookies.remove('jwt-token');
-    this.props.dispatch({type: 'RECEIVE_NEW_DATA', data: { userData: [] }})
     this.setState({ redirect: '/' });
   }
 
-  componentDidMount() {
-    this.handleGetData();
+  async fetchData() {
+    const { data } = await userService.get();
+    return this.setState({
+      userName: data.userName,
+    });
   }
-  handleGetData() {
-    this.props.dispatch(actions.fetchUserData());
+  componentDidMount() {
+    return this.fetchData();
   }
 
   render() {
@@ -50,7 +52,7 @@ class NavBar extends Component {
               <li className="w3-bar-item w3-button">
                 <Link to={'/history'}>Booking History</Link>
               </li>
-              <li className="w3-bar-item w3-button">Welcome {this.props.userData.userName}</li>
+              <li className="w3-bar-item w3-button">Welcome {this.state.userName}</li>
               <button className="w3-bar-item w3-button" onClick={this.signOut}>
                 Log out
               </button>
@@ -62,10 +64,4 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { 
-    userData: state.userData
-  }
-}
-
-export default connect(mapStateToProps)(NavBar)
+export default NavBar
