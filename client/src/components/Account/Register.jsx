@@ -1,12 +1,12 @@
 import React from 'react';
-const url = null;
+const url = 'http://localhost:3000';
 export class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fname: '',
-            lname: '',
-            phone: '',
+            firstName: '',
+            lastName: '',
+
             email: '',
             password: ''
         }
@@ -27,13 +27,13 @@ export class Register extends React.Component {
         this.setState(obj);
     }
     save(){        
-        fetch(url, {
+        fetch(url+"/customers", {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({fname: this.state.fname, lname: this.state.lname, phone: this.state.phone, email: this.state.email, password: this.state.password })
+            body: JSON.stringify({fname: this.state.fname, lname: this.state.lname, email: this.state.email, password: this.state.password })
         }).then(res => res.json())
             .then(json => this.fetchData())             
     }
@@ -50,10 +50,6 @@ export class Register extends React.Component {
                         <div className="form-group">
                             <label>Last name: </label>
                             <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange} required></input>                      
-                        </div>
-                        <div className="form-group">
-                            <label>Phone: </label>
-                            <input type="text" id="phone" name="phone" value={this.state.phone} onChange={this.handleChange} required></input>                       
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
