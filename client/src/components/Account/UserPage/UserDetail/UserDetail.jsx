@@ -30,7 +30,7 @@ class UserDetail extends React.Component {
 
         return this.setState({
           details: data,
-          
+          customerId: data.id,
 
         });
       }
