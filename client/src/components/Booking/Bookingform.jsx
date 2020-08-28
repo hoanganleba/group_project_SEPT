@@ -5,7 +5,7 @@ import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
 import '../../style.scss';
 import '../../w3school.css';
 import userService from '../../services/userService';
-class Bookingform extends Component {
+class BookingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,16 @@ class Bookingform extends Component {
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
-
+  async fetchData() {
+    const { data } = await userService.get();
+    return this.setState({
+     
+      customerId: data.id,
+    });
+  }
+  componentDidMount() {
+    this.fetchData();
+  }
   save() {
     const id = this.state.customerId;
     const obj = {
@@ -32,7 +41,13 @@ class Bookingform extends Component {
       endDateTime: this.state.endDateTime,
       type: this.state.type,
     };
-    userService.postBooking(id, obj).then((res) => console.log(res.data));
+  
+    userService.postBooking(id, obj)
+    .then(alert('Booking successfully'))
+    .catch((error) => alert(error))
+    
+    
+   
   }
 
   render() {
@@ -55,7 +70,7 @@ class Bookingform extends Component {
                   </p>
                   <input
                     className="w3-input w3-border"
-                    type="date"
+                    type="datetime-local"
                     id="startDateTime"
                     name="startDateTime"
                     value={this.state.startDateTime}
@@ -71,7 +86,7 @@ class Bookingform extends Component {
                   </p>
                   <input
                     className="w3-input w3-border"
-                    type="date"
+                    type="datetime-local"
                     id="endDateTime"
                     name="endDateTime"
                     value={this.state.endDateTime}
@@ -240,4 +255,4 @@ class Bookingform extends Component {
   }
 }
 
-export default Bookingform;
+export default BookingForm;
