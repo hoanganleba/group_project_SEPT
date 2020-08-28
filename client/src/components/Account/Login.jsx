@@ -13,8 +13,8 @@ class Login extends Component {
 			roles: '',
 			redirect: null,
 		};
-		this.loginUser = this.loginUser.bind(this);
-		this.loginAdmin = this.loginAdmin.bind(this);
+		this.login = this.login.bind(this);
+
 	}
 	async fetchData() {
 		const { data } = await userService.get();
@@ -23,7 +23,7 @@ class Login extends Component {
 
 		});
 	}
-	loginUser(e) {
+	login(e) {
 		const obj = {
 			userName: this.state.userName,
 			password: this.state.password,
@@ -33,43 +33,25 @@ class Login extends Component {
 			.then((res) => {
 				cookies.set('jwt-token', res.data, { path: '/' });
 			})
+            this.fetchData()
+                if (this.state.roles == "ROLE_USER") {
+                    alert("Access successful");
+                    this.setState({ redirect: '/booking' })
 
-		this.fetchData()
-		if (this.state.roles == "ROLE_USER") {
-			this.setState({ redirect: '/booking' })
-			this.setState({ roles: '' })
-			console.log(this.state.roles)
-		} else {
-			alert("Access denied")
-			console.log(this.state.roles)
+                    console.log(this.state.roles)
+                }
+                else if (this.state.roles == "ROLE_ADMIN") {
+                    alert("Access successful");
+                    this.setState({ redirect: '/adminPage' })
 
-		}
+                    console.log(this.state.roles)
+                }  else {
+                    alert("Access denied")
+                    console.log(this.state.roles)
+                }
+
 	}
-	loginAdmin(e) {
-		const obj = {
-			userName: this.state.userName,
-			password: this.state.password,
-		};
-		authService
-			.signIn(obj)
-			.then((res) => {
-				cookies.set('jwt-token', res.data, { path: '/' });
-			})
 
-		this.fetchData()
-
-		console.log(this.state.roles)
-
-		if (this.state.roles == "ROLE_ADMIN") {
-			this.setState({ redirect: '/adminpage' })
-			this.setState({ roles: '' })
-			console.log(this.state.roles)
-		} else {
-			alert("Access denied")
-			console.log(this.state.roles)
-
-		}
-	}
 
 	render() {
 		if (this.state.redirect) {
@@ -105,23 +87,14 @@ class Login extends Component {
 				<div className="footer">
 
 					<button
-						onClick={this.loginUser}
+						onClick={this.login}
 						type="submit"
 						className="btn btn-large btn-block btn-success"
 					>
-						Login as user
-          </button>
+						Login
+                    </button>
 				</div>
-				<div className="footer">
 
-					<button
-						onClick={this.loginAdmin}
-						type="submit"
-						className="btn btn-large btn-block btn-success"
-					>
-						Login as admin
-          </button>
-				</div>
 			</div>
 		);
 	}
