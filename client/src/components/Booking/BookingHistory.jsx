@@ -14,9 +14,11 @@ class List extends React.Component {
   }
   async fetchData() {
     const { data } = await userService.get();
+
     return this.setState({
       bookingList: data.bookingList,
       customerId: data.id,
+
     });
   }
   componentDidMount() {
@@ -39,6 +41,7 @@ class List extends React.Component {
                 <th>Check in</th>
                 <th>Check out</th>
                 <th>Court Type</th>
+                <th>Customer ID</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -48,6 +51,7 @@ class List extends React.Component {
                   <td>{book.startDateTime}</td>
                   <td>{book.endDateTime}</td>
                   <td>{book.type}</td>
+                  <td>{this.state.customerId}</td>
                   <td>
                     <button
                       className="btn-danger w3-padding"

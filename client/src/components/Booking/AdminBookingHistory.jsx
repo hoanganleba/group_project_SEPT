@@ -4,7 +4,7 @@ import authService from '../../services/authService';
 import userService from '../../services/userService';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
-class Login extends Component {
+class AdminBookinghistory extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -76,55 +76,9 @@ class Login extends Component {
 			return <Redirect to={this.state.redirect} />;
 		}
 		return (
-			<div className="base-container" ref={this.props.containerRef}>
-				<div className="header">Login</div>
-				<div className="content">
-					<div className="form">
-						<div className="form-group">
-							<label>UserName:</label>
-							<input
-								onChange={(e) => this.setState({ userName: e.target.value })}
-								value={this.state.userName}
-								type="text"
-								name="userName"
-								id="userName"
-							/>
-						</div>
-						<div className="form-group">
-							<label>Password:</label>
-							<input
-								onChange={(e) => this.setState({ password: e.target.value })}
-								value={this.state.password}
-								type="password"
-								name="password"
-								id="password"
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="footer">
-
-					<button
-						onClick={this.loginUser}
-						type="submit"
-						className="btn btn-large btn-block btn-success"
-					>
-						Login as user
-          </button>
-				</div>
-				<div className="footer">
-
-					<button
-						onClick={this.loginAdmin}
-						type="submit"
-						className="btn btn-large btn-block btn-success"
-					>
-						Login as admin
-          </button>
-				</div>
-			</div>
+	<h1>in progress</h1>
 		);
 	}
 }
 
-export default Login;
+export default AdminBookinghistory;

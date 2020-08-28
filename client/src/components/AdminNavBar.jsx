@@ -4,7 +4,7 @@ import '../w3school.css';
 import Cookies from "universal-cookie";
 import userService from '../services/userService';
 const cookies = new Cookies();
-class NavBar extends Component {
+class AdminNavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,16 +44,18 @@ class NavBar extends Component {
           <div className="w3-right w3-hide-small">
             <ul>
               <li className="w3-bar-item w3-button">
-                <Link to={'/booking'}>Booking</Link>
+                <Link to={'/adminPage'}>Main page</Link>
               </li>
               <li className="w3-bar-item w3-button">
-                <Link to={'/comment'}>Comment and Rating</Link>
+                <Link to={'/adminComment'}>Comment and Rating</Link>
               </li>
               <li className="w3-bar-item w3-button">
-                <Link to={'/history'}>Booking History</Link>
+                <Link to={'/adminHistory'}>Booking History</Link>
               </li>
-             
-              <li className="w3-bar-item w3-button">Welcome User {this.state.userName}</li>
+              <li className="w3-bar-item w3-button">
+                <Link to={'/userlist'}>User List</Link>
+              </li>
+              <li className="w3-bar-item w3-button">Welcome Admin {this.state.userName}</li>
               <button className="w3-bar-item w3-button" onClick={this.signOut}>
                 Log out
               </button>
@@ -65,4 +67,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar
+export default AdminNavBar;
