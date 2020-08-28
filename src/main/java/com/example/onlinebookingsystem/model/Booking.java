@@ -2,9 +2,10 @@ package com.example.onlinebookingsystem.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.minidev.json.JSONObject;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "booking")
@@ -31,7 +32,6 @@ public class Booking {
     @JoinColumn(name = "account_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @JsonIgnore
     private Account account;
 
     public Booking() {
@@ -84,8 +84,13 @@ public class Booking {
         this.type = type;
     }
 
-    public Account getAccount() {
-        return account;
+    public Object getAccount() {
+        JSONObject accountObject = new JSONObject();
+        accountObject.put("customer_id", account.getId());
+        accountObject.put("firstName", account.getFirstName());
+        accountObject.put("lastName", account.getLastName());
+        accountObject.put("email", account.getEmail());
+        return accountObject;
     }
 
     public void setAccount(Account account) {

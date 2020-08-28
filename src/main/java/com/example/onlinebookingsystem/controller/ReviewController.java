@@ -23,6 +23,12 @@ public class ReviewController {
         this.accountRepository = accountRepository;
     }
 
+    // Get all reviews
+    @GetMapping("/reviews")
+    public Iterable<Review> getAllReviews(){
+        return reviewRepository.findAll();
+    }
+
     @GetMapping("/customers/{customerId}/reviews")
     public Iterable<Review> gerAllReviewsByCustomerId(@PathVariable Integer customerId){
         return reviewRepository.findByAccountId(customerId);

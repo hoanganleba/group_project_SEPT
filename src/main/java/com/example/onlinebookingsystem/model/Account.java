@@ -1,5 +1,6 @@
 package com.example.onlinebookingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -37,12 +38,13 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private List<Review> reviewList;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<Booking> bookingList;
+    private List<Booking> bookingHistories;
 
     public Account(){}
 
@@ -119,11 +121,11 @@ public class Account {
         this.reviewList = reviewList;
     }
 
-    public List<Booking> getBookingList() {
-        return bookingList;
+    public List<Booking> getBookingHistories() {
+        return bookingHistories;
     }
 
-    public void setBookingList(List<Booking> bookingList) {
-        this.bookingList = bookingList;
+    public void setBookingHistories(List<Booking> bookingHistories) {
+        this.bookingHistories = bookingHistories;
     }
 }

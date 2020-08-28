@@ -59,7 +59,7 @@ public class AuthController {
             return new ResponseEntity<>("Email already exist", HttpStatus.FORBIDDEN);
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setRoles("USER");
+        account.setRoles("ROLE_USER");
         Account result = accountRepository.save(account);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     };

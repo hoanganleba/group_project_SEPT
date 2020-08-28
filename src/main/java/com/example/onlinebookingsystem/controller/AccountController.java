@@ -29,16 +29,6 @@ public class AccountController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Get all list of customer of admin only
-    @GetMapping(value = "/customers")
-    public Object findAllCustomers(Authentication authentication) {
-        Account account = accountRepository.findByUserName(authentication.getName());
-        if(account.getRoles().equals("ADMIN")) {
-            return accountService.findAllCustomers("USER");
-        }
-        return new ResponseEntity<Object>("You have no right to access", HttpStatus.FORBIDDEN);
-    }
-
     // Get profile of authenticated user
     @GetMapping(value = "/profile")
     public ResponseEntity<Account> getUserLogged(Authentication authentication) {
@@ -61,6 +51,17 @@ public class AccountController {
         });
     }
 
+    // Get all list of user of admin only
+    @GetMapping(value = "/customers")
+    public Object findAllCustomers(Authentication authentication) {
+        Account account = accountRepository.findByUserName(authentication.getName());
+        if(account.getRoles().equals("ROLE_ADMIN")) {
+            return accountService.findAllCustomers("ROLE_USER");
+        }
+        return new ResponseEntity<Object>("You have no right to access", HttpStatus.FORBIDDEN);
+    }
+
+    // Get specific user account
     @GetMapping(value = "/customers/{customerId}")
     public ResponseEntity<Account> getCustomerById(@PathVariable("customerId") Integer id) {
         Optional<Account> customer = accountService.findById(id);
@@ -68,6 +69,7 @@ public class AccountController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
+    // Delete the user account
     @DeleteMapping(value = "/customers/{customerId}")
     public Optional<ResponseEntity<Object>> deleteCustomer(@PathVariable Integer customerId) {
         return accountService.findById(customerId).map(customer -> {

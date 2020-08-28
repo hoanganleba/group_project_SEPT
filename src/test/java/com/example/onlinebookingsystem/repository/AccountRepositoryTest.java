@@ -54,4 +54,20 @@ public class AccountRepositoryTest {
         List<Account> accounts = accountRepository.findAll();
         assertThat(accounts).hasSize(1);
     }
+
+    @Test
+    public void testExistsByUserName() {
+        assertThat(accountRepository.existsByUserName("An")).isEqualTo(true);
+    }
+
+    @Test
+    public void testExistsByEmail() {
+        assertThat(accountRepository.existsByEmail("hoanganleba@gmail.com")).isEqualTo(true);
+    }
+
+    @Test
+    public void testRoles() {
+        List<Account> accounts = accountRepository.findByRoles("ROLE_USER");
+        assertThat(accounts).hasSize(1);
+    }
 }
