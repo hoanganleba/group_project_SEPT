@@ -39,23 +39,7 @@ class UserDetail extends React.Component {
         {console.log('details'+this.state.details)}
       }
     save(_id) {
-        fetch(url + "" + _id, {
-            method: "put",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({
-                _id: this.state._id,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password
-            }),
-        })
-            .then((res) => res.json())
-            .then((json) => this.fetchData());
-
+   
     }
     edit(firstName, lastName, email, password) {
         this.setState({ firstName: firstName, lastName: lastName, email: email, password: password })

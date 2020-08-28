@@ -33,6 +33,7 @@ class BookingForm extends Component {
   }
   componentDidMount() {
     this.fetchData();
+   
   }
   save() {
     const id = this.state.customerId;

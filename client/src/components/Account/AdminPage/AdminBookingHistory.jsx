@@ -1,7 +1,9 @@
 import React from 'react';
-import '../../w3school.css';
-import userService from '../../services/userService';
-class List extends React.Component {
+import '../../../w3school.css';
+import userService from '../../../services/userService';
+
+
+class AdminBookinghistory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +13,9 @@ class List extends React.Component {
       endDateTime: '',
       type: '',
     };
+    this.showDropdownMenu = this.showDropdownMenu.bind(this);
+    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+
   }
   async fetchData() {
     const { data } = await userService.get();
@@ -25,6 +30,28 @@ class List extends React.Component {
     this.fetchData();
 
   }
+  filterbyop1() {
+    userService.getall().then(
+          res => {
+            const list= res.data
+              let filterlist = list.filter(s => String(s.roles).startsWith('ROLE_ADMIN'))
+              this.setState({ details: filterlist })
+  
+          })
+  }
+  showDropdownMenu(event) {
+    event.preventDefault();
+    this.setState({ displayMenu: true }, () => {
+    document.addEventListener('click', this.hideDropdownMenu);
+    });
+  }
+
+  hideDropdownMenu() {
+    this.setState({ displayMenu: false }, () => {
+      document.removeEventListener('click', this.hideDropdownMenu);
+    });
+
+  }
   delete(customerId, bookingId) {
     if (window.confirm('Do you want to cancel?')) {
       userService.delete(customerId, bookingId);
@@ -36,6 +63,24 @@ class List extends React.Component {
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
+          
+        <div className="dropdown" >
+            <div className="btn btn-success"  onClick={this.showDropdownMenu}> Filter </div>
+
+            {this.state.displayMenu ? (
+              <div>
+                 <button className='btn btn-dark' onClick={this.fetchData.bind(this)}>All</button>
+               <button className='btn btn-dark' onClick={this.filterbyop1.bind(this)}>January</button>
+
+              </div>
+            ) :
+              (
+                null
+              )
+            }
+
+          </div>
+          
           <table className="w3-table-all">
             <thead>
               <tr>
@@ -75,4 +120,7 @@ class List extends React.Component {
   }
 }
 
-export default List;
+
+
+
+export default AdminBookinghistory;

@@ -32,9 +32,9 @@ class Search extends React.Component {
         var list = this.state.users;
         if(list){
             var findUser = list.filter((s) =>
-                    s.firstName.toLowerCase().includes(strSearch.toLowerCase) ||
-                    s.lastName.toLowerCase().includes(strSearch.toLowerCase) ||
-                    s.userName.toLowerCase().includes(strSearch.toLowerCase)
+                    s.firstName.toLowerCase().includes(strSearch.toLowerCase()) ||
+                    s.lastName.toLowerCase().includes(strSearch.toLowerCase()) ||
+                    s.userName.toLowerCase().includes(strSearch.toLowerCase())
              );
              this.setState({
 

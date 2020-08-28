@@ -25,12 +25,13 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Customer customer2 = new Customer(  "minh", "pham", "minh@gmail.com", "minh",  "0811", "ROLE_ADMIN");
         Customer customer = new Customer(  "An", "Le", "hoanganleba@gmail.com", "An",  "123", "ROLE_USER");
         Customer customer1 = new Customer("Hoang", "Le", "hellosomething@gmail.com","Hello" ,"456", "ROLE_USER");
-        Customer customer2 = new Customer(  "minh", "pham", "minh@gmail.com", "minh",  "0811", "ROLE_ADMIN");
         customerRepository.save(customer);
         customerRepository.save(customer1);
         customerRepository.save(customer2);
+
         this.bookingRepository.save(new Booking("2020-7-21 09:00pm", "2020-7-21 10:00am", "normal", customer));
         this.bookingRepository.save(new Booking("2020-7-21 07:00pm", "2020-7-21 18:00am", "normal",customer));
         this.bookingRepository.save(new Booking("2020-7-21 06:00pm", "2020-7-21 21:00am","normal", customer));

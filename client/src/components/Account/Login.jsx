@@ -34,19 +34,21 @@ class Login extends Component {
 				cookies.set('jwt-token', res.data, { path: '/' });
 			})
             this.fetchData()
-                if (this.state.roles == "ROLE_USER") {
+                if (this.state.roles === "ROLE_USER") {
                     alert("Access successful");
-                    this.setState({ redirect: '/booking' })
+                    this.setState({ redirect: '/userPage',roles:'' })
 
                     console.log(this.state.roles)
                 }
-                else if (this.state.roles == "ROLE_ADMIN") {
+                else if (this.state.roles === "ROLE_ADMIN") {
                     alert("Access successful");
-                    this.setState({ redirect: '/adminPage' })
+                    this.setState({ redirect: '/adminPage',roles:'' })
 
                     console.log(this.state.roles)
                 }  else {
-                    alert("Access denied")
+					console.log(this.state.password)
+					console.log(this.state.userName)
+         
                     console.log(this.state.roles)
                 }
 

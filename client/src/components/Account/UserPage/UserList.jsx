@@ -16,9 +16,7 @@ class UserList extends React.Component {
       password: '',
       roles: '',
     };
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
-
+  
     this.handleChange = this.handleChange.bind(this);
   }
   async fetchData() {
@@ -33,29 +31,9 @@ class UserList extends React.Component {
     this.fetchData();  
   }
 
-  showDropdownMenu(event) {
-    event.preventDefault();
-    this.setState({ displayMenu: true }, () => {
-    document.addEventListener('click', this.hideDropdownMenu);
-    });
-  }
 
-  hideDropdownMenu() {
-    this.setState({ displayMenu: false }, () => {
-      document.removeEventListener('click', this.hideDropdownMenu);
-    });
 
-  }
 
-  filterbyop1() {
-  userService.getall().then(
-        res => {
-          const list= res.data
-            let filterlist = list.filter(s => String(s.roles).startsWith('ROLE_ADMIN'))
-            this.setState({ details: filterlist })
-
-        })
-}
   handleChange(e) {
     var obj = {};
     obj[e.target.name] = e.target.value;
@@ -90,23 +68,9 @@ class UserList extends React.Component {
 
         <div className="w3-content w3-border-left w3-border-right">
 
-          <div className="dropdown" >
-            <div className="btn btn-success"  onClick={this.showDropdownMenu}> Filter </div>
-
-            {this.state.displayMenu ? (
-              <div>
-                 <button className='btn btn-dark' onClick={this.fetchData.bind(this)}>All</button>
-               <button className='btn btn-dark' onClick={this.filterbyop1.bind(this)}>Admin User</button>
-
-              </div>
-            ) :
-              (
-                null
-              )
-            }
-
-          </div>
-       
+       <div>
+       <Search/>
+       </div>
     
           <table className="w3-table-all">
 

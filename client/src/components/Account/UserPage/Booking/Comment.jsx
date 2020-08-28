@@ -1,8 +1,8 @@
-import "../../style.scss";
-import React, { Component } from "react";
-import "../../w3school.css";
 
-import userService from "../../services/userService"
+import React, { Component } from "react";
+import "./w3school.css";
+import "./style.scss";
+import userService from "./services/userService"
 
 
 export default class Bookinghistory extends Component {
@@ -202,19 +202,7 @@ export default class Bookinghistory extends Component {
                           <td>{review.comment}</td>
 
                           <td>
-                            <button
-                              className="btn-success w3-padding"
-                              onClick={this.edit.bind(
-                                this,
-                                review.reviewId,
-                                review.comment,
-                                review.rating,
-
-
-                              )}
-                            >
-                              Edit
-                    </button>
+                        
                             <button
                               className="btn-danger w3-padding"
                               onClick={this.delete.bind(this,

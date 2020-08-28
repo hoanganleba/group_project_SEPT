@@ -23,6 +23,7 @@ class NavBar extends Component {
     return this.setState({
       userName: data.userName,
     });
+    
   }
   componentDidMount() {
     return this.fetchData();
@@ -36,7 +37,7 @@ class NavBar extends Component {
       <div className="w3-top" style={{ zIndex: '1000' }}>
         <div className="w3-bar w3-white w3-wide w3-padding w3-card">
           <li className="w3-bar-item w3-button">
-            <Link to={'/booking'}>
+            <Link to={'/userPage'}>
               <i className="fa fa-home fa-fw w3-large w3-text-teal" />
               <b>Home</b>
             </Link>
@@ -44,7 +45,7 @@ class NavBar extends Component {
           <div className="w3-right w3-hide-small">
             <ul>
               <li className="w3-bar-item w3-button">
-                <Link to={'/booking'}>Booking</Link>
+                <Link to={'/userPage'}>Booking</Link>
               </li>
               <li className="w3-bar-item w3-button">
                 <Link to={'/comment'}>Comment and Rating</Link>
@@ -53,7 +54,10 @@ class NavBar extends Component {
                 <Link to={'/history'}>Booking History</Link>
               </li>
              
-              <li className="w3-bar-item w3-button">Welcome User {this.state.userName}</li>
+              <li className="w3-bar-item w3-button">Welcome User {this.state.userName}              
+            <Link to={'/userDetail'}></Link>
+              </li>
+              
               <button className="w3-bar-item w3-button" onClick={this.signOut}>
                 Log out
               </button>

@@ -1,8 +1,10 @@
-import "../../style.scss";
 import React, { Component } from "react";
-import "../../w3school.css";
+import "../../../style.scss";
 
-import userService from "../../services/userService"
+import "../../../w3school.css";
+
+
+import userService from '../../../services/userService';
 
 
  class AdminComment extends Component {
