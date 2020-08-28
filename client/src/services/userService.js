@@ -2,7 +2,7 @@ import axios from './axios'
 
 export default {
     get() {
-        return axios.get('/user');
+        return axios.get('/profile');
     },
     getall() {
         return axios.get('/customers');

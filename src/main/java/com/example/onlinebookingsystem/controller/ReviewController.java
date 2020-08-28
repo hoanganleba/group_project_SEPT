@@ -29,11 +29,13 @@ public class ReviewController {
         return reviewRepository.findAll();
     }
 
+    // Get by customer id
     @GetMapping("/customers/{customerId}/reviews")
     public Iterable<Review> gerAllReviewsByCustomerId(@PathVariable Integer customerId){
         return reviewRepository.findByAccountId(customerId);
     }
 
+    // Add new reviews
     @PostMapping(value = "/customers/{customerId}/reviews")
     public Review createReview(@RequestBody Review review, @PathVariable Integer customerId) {
         return accountRepository.findById(customerId).map(customer -> {

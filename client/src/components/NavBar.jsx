@@ -11,11 +11,10 @@ class NavBar extends Component {
       redirect: null,
       userName: '',
     };
-    this.signOut = this.signOut.bind(this);
   }
-  signOut() {
-    cookies.remove('jwt-token');
-    this.setState({ redirect: '/' });
+  signOut(){
+    cookies.remove('jwt-token', { path: '/'});
+    return this.setState({ redirect: '/' });
   }
 
   async fetchData() {
@@ -54,7 +53,7 @@ class NavBar extends Component {
               </li>
              
               <li className="w3-bar-item w3-button">Welcome User {this.state.userName}</li>
-              <button className="w3-bar-item w3-button" onClick={this.signOut}>
+              <button className="w3-bar-item w3-button" onClick={() => this.signOut()}>
                 Log out
               </button>
             </ul>

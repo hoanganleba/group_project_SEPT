@@ -16,13 +16,11 @@ class AdminPage extends Component {
       type: '',
       addNew: true,
     };
-
   }
 
   async fetchData() {
     const { data } = await userService.get();
     return this.setState({
-     
       customerId: data.id,
     });
   }
@@ -30,12 +28,10 @@ class AdminPage extends Component {
     this.fetchData();
   }
 
-
   render() {
     return (
       <div className="w3-content w3-border-left w3-border-right">
-     
-        <div className="w3-main w3-white" >
+        <div className="w3-main w3-white">
           <div className="w3-container">
             <h2 className="w3-text-green">Booking Tennis Court</h2>
 
@@ -90,26 +86,25 @@ class AdminPage extends Component {
                 <i className="fa fa-fw fa-male" /> Max people: 10
               </p>
             </div>
-         
 
-          <h4>
-            <strong>Facilities</strong>
-          </h4>
-          <div className="w3-row w3-large">
-            <div className="w3-col s6">
-              <p>
-                <i className="fa fa-fw fa-shower" /> Bathroom
-              </p>
-              <p>
-                <i className="fa fa-fw fa-wifi" /> WiFi
-              </p>
+            <h4>
+              <strong>Facilities</strong>
+            </h4>
+            <div className="w3-row w3-large">
+              <div className="w3-col s6">
+                <p>
+                  <i className="fa fa-fw fa-shower" /> Bathroom
+                </p>
+                <p>
+                  <i className="fa fa-fw fa-wifi" /> WiFi
+                </p>
+              </div>
+              <div className="w3-col s6">
+                <p>
+                  <i className="fa fa-fw fa-cutlery" /> BBQ
+                </p>
+              </div>
             </div>
-            <div className="w3-col s6">
-              <p>
-                <i className="fa fa-fw fa-cutlery" /> BBQ
-              </p>
-            </div>
-          </div>
           </div>
 
           <div className="w3-container" id="contact">

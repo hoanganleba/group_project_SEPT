@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../w3school.css';
 import userService from '../../services/userService';
+import bookingService from '../../services/bookingService';
 class List extends React.Component {
   constructor(props) {
     super(props);
@@ -16,18 +17,18 @@ class List extends React.Component {
     const { data } = await userService.get();
 
     return this.setState({
-      bookingList: data.bookingList,
+      bookingList: data.bookingHistories,
       customerId: data.id,
-
     });
   }
   componentDidMount() {
     this.fetchData();
   }
-  delete(customerId, bookingId) {
+  delete(bookingId) {
     if (window.confirm('Do you want to cancel?')) {
-      userService.delete(customerId, bookingId);
-      window.location.reload();
+      bookingService
+        .cancelBooking(bookingId)
+        .then(() => window.location.reload());
       return this.fetchData();
     }
   }
@@ -41,7 +42,6 @@ class List extends React.Component {
                 <th>Check in</th>
                 <th>Check out</th>
                 <th>Court Type</th>
-                <th>Customer ID</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -51,15 +51,10 @@ class List extends React.Component {
                   <td>{book.startDateTime}</td>
                   <td>{book.endDateTime}</td>
                   <td>{book.type}</td>
-                  <td>{this.state.customerId}</td>
                   <td>
                     <button
                       className="btn-danger w3-padding"
-                      onClick={this.delete.bind(
-                        this,
-                        this.state.customerId,
-                        book.id
-                      )}
+                      onClick={this.delete.bind(this, book.id)}
                     >
                       Cancel
                     </button>

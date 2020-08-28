@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../w3school.css';
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 import userService from '../services/userService';
 const cookies = new Cookies();
 class AdminNavBar extends Component {
@@ -55,7 +55,9 @@ class AdminNavBar extends Component {
               <li className="w3-bar-item w3-button">
                 <Link to={'/userlist'}>User List</Link>
               </li>
-              <li className="w3-bar-item w3-button">Welcome Admin {this.state.userName}</li>
+              <li className="w3-bar-item w3-button">
+                Welcome Admin {this.state.userName}
+              </li>
               <button className="w3-bar-item w3-button" onClick={this.signOut}>
                 Log out
               </button>

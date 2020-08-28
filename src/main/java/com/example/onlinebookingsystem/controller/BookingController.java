@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -63,12 +64,12 @@ public class BookingController {
 
             // Reject if book the past date and time
             if(startDate.isBefore(currentDate) && startTime.isBefore(currentTime)){
-                return new ResponseEntity<Object>("You cannot book the past day or time", HttpStatus.FORBIDDEN);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot book the past day or time");
             }
 
             // Reject if book more than a week
             if(startDate.isAfter(futureDate)){
-                return new ResponseEntity<Object>("You cannot book more than a week", HttpStatus.FORBIDDEN);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot book more than a week");
             }
 
             // Add new booking && Status pending is set by default

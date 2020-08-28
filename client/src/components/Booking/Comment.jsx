@@ -1,107 +1,69 @@
-import "../../style.scss";
-import React, { Component } from "react";
-import "../../w3school.css";
+import '../../style.scss';
+import React, { Component } from 'react';
+import '../../w3school.css';
 
-import userService from "../../services/userService"
-
+import userService from '../../services/userService';
+import reviewService from '../../services/reviewService';
 
 export default class Bookinghistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       reviewList: [],
       reviewId: 0,
       addNew: true,
-      comment: "",
-      rating: "",
+      comment: '',
+      rating: '',
       customerId: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
   async fetchData() {
-
-    const { data } = await userService.get();
-
+    const { data } = await reviewService.getAllReviews();
     return this.setState({
-      reviewList: data.reviewList,
-      
+      reviewList: data,
       customerId: data.id,
-
     });
   }
   componentDidMount() {
     this.fetchData();
-
   }
   handleChange(e) {
-    var obj = {};
+    const obj = {};
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
 
-
-  
   save() {
     const id = this.state.customerId;
     const obj = {
       comment: this.state.comment,
       rating: this.state.rating,
-
     };
-    userService.postReview(id, obj).then((res) => console.log(res.data)
-      .then(alert('Comment successfully'))
-      .catch((error) => alert(error))
+    userService.postReview(id, obj).then((res) =>
+      console
+        .log(res.data)
+        .then(alert('Comment successfully'))
+        .catch((error) => alert(error))
     );
   }
-  editcomment() {
+  editComment() {
     const customerId = this.state.customerId;
     const reviewId = this.state.reviewId;
     const obj = {
       comment: this.state.comment,
       rating: this.state.rating,
-
     };
-    userService.editReview(customerId, reviewId, obj).then((res) => console.log(res.data));
+    userService
+      .editReview(customerId, reviewId, obj)
+      .then((res) => console.log(res.data));
   }
-  /* save(_id) {
-     if (this.state.addNew === true) {
-       fetch(url + "/customers/{customerId}/reviews", {
-         method: "post",
-         headers: {
-           "Content-Type": "application/json",
-           Accept: "application/json",
-         },
-         body: JSON.stringify({
-           _id: this.state._id,
-           comment: this.state.comment,
-           rating: this.state.rating,
-         }),
-       })
-         .then((res) => res.json())
-         .then((json) => this.fetchData());
-     } else {
-       fetch(url + "/customers/{customerId}/reviews/" + _id, {
-         method: "put",
-         headers: {
-           "Content-Type": "application/json",
-           Accept: "application/json",
-         },
-         body: JSON.stringify({
-           _id: this.state._id,
-           comment: this.state.comment,
-           rating: this.state.rating,
-         }),
-       })
-         .then((res) => res.json())
-         .then((json) => this.fetchData());
-     }
-   }*/
   delete(customerId, reviewId) {
     if (window.confirm('Do you want to cancel?')) {
-      userService.deleteReview(customerId, reviewId).then((res) => console.log(res.data));
-
+      userService
+        .deleteReview(customerId, reviewId)
+        .then((res) => console.log(res.data));
     }
   }
   edit(reviewId, comment, rating) {
@@ -109,14 +71,14 @@ export default class Bookinghistory extends Component {
       reviewId: reviewId,
       comment: comment,
       rating: rating,
-      addNew: false
+      addNew: false,
     });
   }
   add() {
     this.setState({
-      comment: "",
-      rating: "",
-      addNew: true
+      comment: '',
+      rating: '',
+      addNew: true,
     });
   }
   render() {
@@ -130,12 +92,12 @@ export default class Bookinghistory extends Component {
           >
             <div className="w3-container w3-display-container w3-padding-16">
               <h2 className="w3-text-gray">
-                {" "}
-                <strong>
-                  <center>Rating the Service</center>
-                </strong>{" "}
+                {' '}
+                <strong style={{ textAlign: 'center' }}>
+                  Rating the Service
+                </strong>{' '}
               </h2>
-
+              A
               <div className="form">
                 <div className="row">
                   <div className="w3-padding">
@@ -176,8 +138,7 @@ export default class Bookinghistory extends Component {
               </div>
             </div>
             <div className="footer">
-              <center>
-              </center>
+              <center></center>
             </div>
           </div>
           <div className="w3-main w3-white" style={{ marginLeft: 360 }}>
@@ -187,7 +148,6 @@ export default class Bookinghistory extends Component {
                   <table className="w3-table-all">
                     <thead>
                       <tr>
-
                         <th>rating</th>
                         <th>comment</th>
                       </tr>
@@ -195,7 +155,6 @@ export default class Bookinghistory extends Component {
                     <tbody>
                       {this.state.reviewList.map((review, index) => (
                         <tr key={index}>
-
                           <td>{review.rating}</td>
                           <td>{review.comment}</td>
 
@@ -206,43 +165,38 @@ export default class Bookinghistory extends Component {
                                 this,
                                 review.reviewId,
                                 review.comment,
-                                review.rating,
-
-
+                                review.rating
                               )}
                             >
                               Edit
-                    </button>
+                            </button>
                             <button
                               className="btn-danger w3-padding"
-                              onClick={this.delete.bind(this,
+                              onClick={this.delete.bind(
+                                this,
                                 this.state.customerId,
-                                console.log('this'+review.reviewId),
-                                console.log(this.state.customerId),
-                                console.log(this.state.reviewList),
-
-                                review.id)}
-
+                                review.id
+                              )}
                             >
-
                               Delete
-                    </button>
-
-
-
+                            </button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-
-
-
-                  <button className="w3-button w3-green" onClick={this.save.bind(this,)}>Save</button>
-
-                  <button className="w3-button w3-green" onClick={this.add.bind(this)}>Add</button>
-
-
+                  <button
+                    className="w3-button w3-green"
+                    onClick={this.save.bind(this)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="w3-button w3-green"
+                    onClick={this.add.bind(this)}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
             </div>

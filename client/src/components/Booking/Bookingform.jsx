@@ -5,6 +5,8 @@ import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
 import '../../style.scss';
 import '../../w3school.css';
 import userService from '../../services/userService';
+import bookingService from '../../services/bookingService';
+import moment from 'moment';
 class BookingForm extends Component {
   constructor(props) {
     super(props);
@@ -13,21 +15,20 @@ class BookingForm extends Component {
       booking: [],
       startDateTime: '',
       endDateTime: '',
-      type: '',
+      type: 'Normal',
       addNew: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
   handleChange(e) {
-    var obj = {};
+    const obj = {};
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
   async fetchData() {
     const { data } = await userService.get();
     return this.setState({
-     
       customerId: data.id,
     });
   }
@@ -35,19 +36,20 @@ class BookingForm extends Component {
     this.fetchData();
   }
   save() {
-    const id = this.state.customerId;
     const obj = {
-      startDateTime: this.state.startDateTime,
-      endDateTime: this.state.endDateTime,
+      startDateTime: moment(this.state.startDateTime).format(
+        'YYYY-MM-DD hh:mm:ss'
+      ),
+      endDateTime: moment(this.state.endDateTime).format('YYYY-MM-DD hh:mm:ss'),
       type: this.state.type,
     };
-  
-    userService.postBooking(id, obj)
-    .then(alert('Booking successfully'))
-    .catch((error) => alert(error))
-    
-    
-   
+
+    bookingService
+      .postBooking(obj)
+      .then(() => {
+        alert('Booking successfully ');
+      })
+      .catch((err) => alert(err.response.data.message));
   }
 
   render() {
@@ -105,10 +107,10 @@ class BookingForm extends Component {
                     defaultValue={this.state.type}
                     onChange={this.handleChange}
                   >
-                    <option value="normal" type="normal">
+                    <option value="Normal" type="normal">
                       Normal
                     </option>
-                    <option value="premium" type="premium">
+                    <option value="Premium" type="premium">
                       Premium
                     </option>
                   </select>
@@ -183,26 +185,25 @@ class BookingForm extends Component {
                 <i className="fa fa-fw fa-male" /> Max people: 10
               </p>
             </div>
-         
 
-          <h4>
-            <strong>Facilities</strong>
-          </h4>
-          <div className="w3-row w3-large">
-            <div className="w3-col s6">
-              <p>
-                <i className="fa fa-fw fa-shower" /> Bathroom
-              </p>
-              <p>
-                <i className="fa fa-fw fa-wifi" /> WiFi
-              </p>
+            <h4>
+              <strong>Facilities</strong>
+            </h4>
+            <div className="w3-row w3-large">
+              <div className="w3-col s6">
+                <p>
+                  <i className="fa fa-fw fa-shower" /> Bathroom
+                </p>
+                <p>
+                  <i className="fa fa-fw fa-wifi" /> WiFi
+                </p>
+              </div>
+              <div className="w3-col s6">
+                <p>
+                  <i className="fa fa-fw fa-cutlery" /> BBQ
+                </p>
+              </div>
             </div>
-            <div className="w3-col s6">
-              <p>
-                <i className="fa fa-fw fa-cutlery" /> BBQ
-              </p>
-            </div>
-          </div>
           </div>
 
           <div className="w3-container" id="contact">
@@ -212,7 +213,7 @@ class BookingForm extends Component {
             <br />
             <i className="fa fa-phone" style={{ width: 30 }} /> Phone: 123456789{' '}
             <br />
-            <i className="fa fa-envelope" style={{ width: 30 }}></i>
+            <i className="fa fa-envelope" style={{ width: 30 }} />
             Email: nomail@mail.com
             <br />
             <p>Questions? Go ahead, ask them:</p>
