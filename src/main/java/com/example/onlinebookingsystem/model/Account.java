@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "customer")
-public class Customer {
+@Table(name = "account")
+public class Account {
 
     @Id
     @Column
@@ -34,19 +34,19 @@ public class Customer {
     @Column(name = "roles")
     private String roles;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Booking> bookingList;
 
-    public Customer(){}
+    public Account(){}
 
-    public Customer(String firstName, String lastName, String email, String userName, String password, String roles) {
+    public Account(String firstName, String lastName, String email, String userName, String password, String roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

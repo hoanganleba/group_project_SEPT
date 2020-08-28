@@ -1,9 +1,9 @@
 package com.example.onlinebookingsystem.controller;
 
 import com.example.onlinebookingsystem.auth.LoginRequest;
-import com.example.onlinebookingsystem.model.Customer;
+import com.example.onlinebookingsystem.model.Account;
 import com.example.onlinebookingsystem.auth.SignUpRequest;
-import com.example.onlinebookingsystem.repository.CustomerRepository;
+import com.example.onlinebookingsystem.repository.AccountRepository;
 import com.example.onlinebookingsystem.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,14 +37,14 @@ public class AuthController {
             );
 
         } catch (Exception ex) {
-            throw new Exception("invalid username/password");
+            throw new Exception("Invalid username/password");
         }
         return jwtUtil.generateToken(loginRequest.getUserName());
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest) throws Exception {
-        Customer customer = new Customer(
+        Account account = new Account(
                 signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
                 signUpRequest.getEmail(),
@@ -52,9 +52,15 @@ public class AuthController {
                 signUpRequest.getPassword(),
                 signUpRequest.getRoles()
         );
-        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        customer.setRoles("ROLE_USER");
-        Customer result = customerRepository.save(customer);
+        if(accountRepository.existsByUserName(signUpRequest.getUserName())){
+            return new ResponseEntity<>("Username already exist", HttpStatus.FORBIDDEN);
+        }
+        if(accountRepository.existsByEmail(signUpRequest.getEmail())){
+            return new ResponseEntity<>("Email already exist", HttpStatus.FORBIDDEN);
+        }
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRoles("USER");
+        Account result = accountRepository.save(account);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     };
 }

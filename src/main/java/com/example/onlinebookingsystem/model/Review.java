@@ -22,19 +22,19 @@ public class Review {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "account_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private Customer customer;
+    private Account account;
 
     public Review(){
     }
 
-    public Review(Number rating, String comment, Customer customer) {
+    public Review(Number rating, String comment, Account account) {
         this.rating = rating;
         this.comment = comment;
-        this.customer = customer;
+        this.account = account;
     }
 
     public int getId() {
@@ -61,11 +61,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

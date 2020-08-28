@@ -1,8 +1,8 @@
 package com.example.onlinebookingsystem.controller;
 
-import com.example.onlinebookingsystem.model.Customer;
+import com.example.onlinebookingsystem.model.Account;
 import com.example.onlinebookingsystem.model.Review;
-import com.example.onlinebookingsystem.repository.CustomerRepository;
+import com.example.onlinebookingsystem.repository.AccountRepository;
 import com.example.onlinebookingsystem.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -15,36 +15,35 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
 
     private final ReviewRepository reviewRepository;
-    private final CustomerRepository customerRepository;
+    private final AccountRepository accountRepository;
 
     @Autowired
-    public ReviewController(ReviewRepository reviewRepository, CustomerRepository customerRepository) {
+    public ReviewController(ReviewRepository reviewRepository, AccountRepository accountRepository) {
         this.reviewRepository = reviewRepository;
-        this.customerRepository = customerRepository;
+        this.accountRepository = accountRepository;
     }
 
     @GetMapping("/customers/{customerId}/reviews")
-    public Iterable<Review> gerAllReviewsByCustomerId(
-            @PathVariable(value = "customerId") Integer customerId){
-        return reviewRepository.findByCustomerId(customerId);
+    public Iterable<Review> gerAllReviewsByCustomerId(@PathVariable Integer customerId){
+        return reviewRepository.findByAccountId(customerId);
     }
 
     @PostMapping(value = "/customers/{customerId}/reviews")
     public Review createReview(@RequestBody Review review, @PathVariable Integer customerId) {
-        return customerRepository.findById(customerId).map(customer -> {
-            review.setCustomer(customer);
+        return accountRepository.findById(customerId).map(customer -> {
+            review.setAccount(customer);
             return reviewRepository.save(review);
         }).orElseThrow(() -> new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found"));
     }
 
     @PutMapping(value = "/customers/{customerId}/reviews/{reviewId}")
     public ResponseEntity<Review> updateReview(@PathVariable Integer reviewId, @RequestBody Review newReview, @PathVariable Integer customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found"));
+        Account account = accountRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found"));
 
         return reviewRepository.findById(reviewId).map(review -> {
             review.setRating(newReview.getRating());
             review.setComment(newReview.getComment());
-            newReview.setCustomer(customer);
+            newReview.setAccount(account);
             reviewRepository.save(review);
             return ResponseEntity.ok(newReview);
         }).orElseThrow(() -> new ResourceNotFoundException("Review [reviewId="+reviewId+"] can't be found"));
@@ -53,7 +52,7 @@ public class ReviewController {
     @DeleteMapping(value = "/customers/{customerId}/reviews/{reviewId}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Integer reviewId, @PathVariable Integer customerId) {
 
-        if (!customerRepository.existsById(customerId)) {
+        if (!accountRepository.existsById(customerId)) {
             throw new ResourceNotFoundException("Customer [customerId="+customerId+"] can't be found");
         }
 

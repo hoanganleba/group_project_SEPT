@@ -15,30 +15,33 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "start_datetime")
+    @Column(name = "start_date_time")
     private String startDateTime;
 
-    @Column(name = "end_datetime")
+    @Column(name = "end_date_time")
     private String endDateTime;
+
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "type")
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "account_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private Customer customer;
+    private Account account;
 
     public Booking() {
     }
 
-    public Booking(String startDateTime, String endDateTime, String type, Customer customer) {
+    public Booking(String startDateTime, String endDateTime, String type, Account account) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.type = type;
-        this.customer = customer;
+        this.account = account;
     }
 
     public int getId() {
@@ -65,6 +68,14 @@ public class Booking {
         this.endDateTime = endDateTime;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getType() {
         return type;
     }
@@ -73,12 +84,12 @@ public class Booking {
         this.type = type;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
 

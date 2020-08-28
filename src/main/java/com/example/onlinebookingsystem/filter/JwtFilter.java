@@ -1,6 +1,6 @@
 package com.example.onlinebookingsystem.filter;
 
-import com.example.onlinebookingsystem.service.CustomerUserDetailsService;
+import com.example.onlinebookingsystem.service.AccountUserDetailsService;
 import com.example.onlinebookingsystem.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private CustomerUserDetailsService service;
+    private AccountUserDetailsService service;
 
 
     @Override

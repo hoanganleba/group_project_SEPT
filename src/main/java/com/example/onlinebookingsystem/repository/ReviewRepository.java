@@ -1,10 +1,8 @@
 package com.example.onlinebookingsystem.repository;
 
 import com.example.onlinebookingsystem.model.Review;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RepositoryRestResource
-public interface ReviewRepository extends CrudRepository<Review, Integer> {
-    Iterable<Review> findByCustomerId(Integer customerId);
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
+    Iterable<Review> findByAccountId(Integer accountId);
 }

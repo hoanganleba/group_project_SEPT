@@ -1,13 +1,13 @@
 package com.example.onlinebookingsystem;
 
+import com.example.onlinebookingsystem.repository.AccountRepositoryTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@SpringBootTest
-class OnlineBookingSystemApplicationTests {
-
+@RunWith(Suite.class)
+@Suite.SuiteClasses({AccountRepositoryTest.class})
+public class OnlineBookingSystemApplicationTests {
 	@Test
-	void contextLoads() {
-	}
-
+	public void contextLoads() {}
 }
