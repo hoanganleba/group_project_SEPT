@@ -16,6 +16,8 @@ export default class Header extends Component {
                                 <li className="w3-bar-item w3-button"><Link to={"/"}>Booking</Link></li>
                                 <li className="w3-bar-item w3-button"><Link to={"/comment"}>Comment and Rating</Link></li>
                                 <li className="w3-bar-item w3-button"><Link to={"/history"}>Booking History</Link></li>
+                                <li className="w3-bar-item w3-button"><Link to={"/profile"}>Profile</Link></li>
+                                <li className="w3-bar-item w3-button"><Link to={"/manageemployee"}>View Coaches</Link></li>
                             </ul>
                         </div>
                     </div>
