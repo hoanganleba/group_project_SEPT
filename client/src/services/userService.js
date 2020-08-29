@@ -28,7 +28,7 @@ export default {
     postReview(customerId, obj) {
         return axios.post(`/customers/${customerId}/reviews`, obj);
     },
-    editReview(customerId,reviewId, obj) {
+    editReview(customerId, reviewId, obj) {
         return axios.put(`/customers/${customerId}/reviews/${reviewId}`, obj);
     },
     deleteReview(customerId, reviewId) {

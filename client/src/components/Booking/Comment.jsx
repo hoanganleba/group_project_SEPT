@@ -13,17 +13,18 @@ export default class Bookinghistory extends Component {
       reviewId: 0,
       addNew: true,
       comment: '',
-      rating: '',
-      customerId: 0,
+      rating: 1,
+      customerId: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
   async fetchData() {
     const { data } = await reviewService.getAllReviews();
-    return this.setState({
+    const customerData = await userService.get();
+    this.setState({
       reviewList: data,
-      customerId: data.id,
+      customerId: customerData.data.id
     });
   }
   componentDidMount() {
@@ -36,34 +37,31 @@ export default class Bookinghistory extends Component {
   }
 
   save() {
-    const id = this.state.customerId;
-    const obj = {
-      comment: this.state.comment,
-      rating: this.state.rating,
-    };
-    userService.postReview(id, obj).then((res) =>
-      console
-        .log(res.data)
-        .then(alert('Comment successfully'))
-        .catch((error) => alert(error))
-    );
-  }
-  editComment() {
     const customerId = this.state.customerId;
     const reviewId = this.state.reviewId;
     const obj = {
       comment: this.state.comment,
       rating: this.state.rating,
     };
-    userService
-      .editReview(customerId, reviewId, obj)
-      .then((res) => console.log(res.data));
+    if(this.state.addNew) {
+      userService.postReview(customerId, obj)
+          .then(alert('Comment successfully'))
+          .then(this.fetchData())
+          .catch((error) => alert(error))
+    }
+    else {
+      userService.editReview(customerId, reviewId, obj)
+          .then(alert('Edit comment successfully'))
+          .then(this.fetchData())
+          .catch((error) => alert(error))
+    }
   }
   delete(customerId, reviewId) {
-    if (window.confirm('Do you want to cancel?')) {
-      userService
-        .deleteReview(customerId, reviewId)
-        .then((res) => console.log(res.data));
+    if (window.confirm('Do you want to delete?')) {
+      userService.deleteReview(customerId, reviewId)
+          .then(alert('Delete comment successfully'))
+          .then(this.fetchData())
+          .catch((error) => alert(error))
     }
   }
   edit(reviewId, comment, rating) {
@@ -72,13 +70,6 @@ export default class Bookinghistory extends Component {
       comment: comment,
       rating: rating,
       addNew: false,
-    });
-  }
-  add() {
-    this.setState({
-      comment: '',
-      rating: '',
-      addNew: true,
     });
   }
   render() {
@@ -92,12 +83,10 @@ export default class Bookinghistory extends Component {
           >
             <div className="w3-container w3-display-container w3-padding-16">
               <h2 className="w3-text-gray">
-                {' '}
                 <strong style={{ textAlign: 'center' }}>
                   Rating the Service
-                </strong>{' '}
+                </strong>
               </h2>
-              A
               <div className="form">
                 <div className="row">
                   <div className="w3-padding">
@@ -124,6 +113,7 @@ export default class Bookinghistory extends Component {
                         id="rating"
                         name="rating"
                         value={this.state.rating}
+                        defaultValue={this.state.rating}
                         onChange={this.handleChange}
                       >
                         <option>1</option>
@@ -148,22 +138,24 @@ export default class Bookinghistory extends Component {
                   <table className="w3-table-all">
                     <thead>
                       <tr>
-                        <th>rating</th>
-                        <th>comment</th>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {this.state.reviewList.map((review, index) => (
                         <tr key={index}>
+                          <td>{review.account.firstName} {review.account.lastName}</td>
                           <td>{review.rating}</td>
                           <td>{review.comment}</td>
-
                           <td>
                             <button
                               className="btn-success w3-padding"
                               onClick={this.edit.bind(
                                 this,
-                                review.reviewId,
+                                review.id,
                                 review.comment,
                                 review.rating
                               )}
@@ -190,12 +182,6 @@ export default class Bookinghistory extends Component {
                     onClick={this.save.bind(this)}
                   >
                     Save
-                  </button>
-                  <button
-                    className="w3-button w3-green"
-                    onClick={this.add.bind(this)}
-                  >
-                    Add
                   </button>
                 </div>
               </div>

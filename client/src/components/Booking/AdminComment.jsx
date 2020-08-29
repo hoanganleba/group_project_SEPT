@@ -17,14 +17,14 @@ class AdminComment extends Component {
       customerId: 0,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.save = this.save.bind(this);
+    this.saving = this.saving.bind(this);
   }
   async fetchData() {
     const { data } = await reviewService.getAllReviews();
-    return this.setState({
+    const customerData = await userService.get();
+    this.setState({
       reviewList: data,
-      reviewId: data.reviewId,
-      customerId: data.id,
+      customerId: customerData.data.id
     });
   }
   componentDidMount() {
@@ -42,7 +42,9 @@ class AdminComment extends Component {
         comment: this.state.comment,
         rating: this.state.rating,
       };
-      userService.postComment(id, obj).then((res) => console.log(res.data));
+      userService.postReview(id, obj)
+          .then(alert('Comment successfully'))
+          .catch((error) => alert(error))
     } else {
       const id = this.state.customerId;
       const reviewId = this.state.reviewId;
@@ -50,39 +52,15 @@ class AdminComment extends Component {
         comment: this.state.comment,
         rating: this.state.rating,
       };
-      userService
-        .editComment(id, reviewId, obj)
-        .then((res) => console.log(res.data));
+      userService.editReview(id, reviewId, obj)
+          .then((res) => console.log(res.data));
     }
   }
-  save() {
-    const id = this.state.customerId;
-    const obj = {
-      comment: this.state.comment,
-      rating: this.state.rating,
-    };
-    userService.postComment(id, obj).then((res) =>
-      console
-        .log(res.data)
-        .then(alert('Comment successfully'))
-        .catch((error) => alert(error))
-    );
-  }
-  editcomment() {
-    const id = this.state.customerId;
-    const reviewId = this.state.reviewId;
-    const obj = {
-      comment: this.state.comment,
-      rating: this.state.rating,
-    };
-    userService
-      .editComment(id, reviewId, obj)
-      .then((res) => console.log(res.data));
-  }
+
   delete(id, reviewId) {
     if (window.confirm('Do you want to cancel?')) {
       userService
-        .deletecomment(id, reviewId)
+        .deleteReview(id, reviewId)
         .then((res) => console.log(res.data));
     }
   }
@@ -183,7 +161,7 @@ class AdminComment extends Component {
                               className="btn-success w3-padding"
                               onClick={this.edit.bind(
                                 this,
-                                review.reviewId,
+                                review.id,
                                 review.comment,
                                 review.rating
                               )}
@@ -207,15 +185,9 @@ class AdminComment extends Component {
                   </table>
                   <button
                     className="w3-button w3-green"
-                    onClick={this.save.bind(this)}
+                    onClick={this.saving.bind(this)}
                   >
                     Save
-                  </button>
-                  <button
-                    className="w3-button w3-green"
-                    onClick={this.add.bind(this)}
-                  >
-                    Add
                   </button>
                 </div>
               </div>
