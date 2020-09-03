@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -45,7 +44,7 @@ public class BookingController {
 
     // Create new booking for authenticated user
     @PostMapping("/profile/bookings")
-    public Object createBooking(Authentication authentication, @RequestBody Booking booking) throws ParseException {
+    public Object createBooking(Authentication authentication, @RequestBody Booking booking) {
         Account account = accountRepository.findByUserName(authentication.getName());
         Integer accountId = account.getId();
         LocalDate currentDate = LocalDate.now();

@@ -1,16 +1,10 @@
 package com.example.onlinebookingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import javax.persistence.*;
 
-import java.util.List;
-
 @Entity
-@Table(name = "account")
-public class Account {
+@Table(name = "employee")
+public class Employee {
 
     @Id
     @Column
@@ -38,35 +32,24 @@ public class Account {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "work_experience")
+    private String workExperience;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "achievements")
+    private String achievements;
 
-    @Column(name = "roles")
-    private String roles;
+    public Employee(){}
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
-    private List<Review> reviewList;
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Booking> bookingHistories;
-
-    public Account(){}
-
-    public Account(String firstName, String lastName, String email, String userName, String password, String roles) {
+    public Employee(String firstName, String lastName, String email, String job, String address, Number phone, String gender, String workExperience, String achievements) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.userName = userName;
-        this.password = password;
-        this.roles = roles;
+        this.job = job;
+        this.address = address;
+        this.phone = phone;
+        this.gender = gender;
+        this.workExperience = workExperience;
+        this.achievements = achievements;
     }
 
     public int getId() {
@@ -133,43 +116,19 @@ public class Account {
         this.gender = gender;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getWorkExperience() {
+        return workExperience;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setWorkExperience(String workExperience) {
+        this.workExperience = workExperience;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAchievements() {
+        return achievements;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
-    }
-
-    public List<Booking> getBookingHistories() {
-        return bookingHistories;
-    }
-
-    public void setBookingHistories(List<Booking> bookingHistories) {
-        this.bookingHistories = bookingHistories;
+    public void setAchievements(String achievements) {
+        this.achievements = achievements;
     }
 }
