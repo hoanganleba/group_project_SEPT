@@ -45,6 +45,10 @@ public class AccountController {
             profile.setEmail(profileReq.getEmail());
             profile.setFirstName(profileReq.getFirstName());
             profile.setLastName(profileReq.getLastName());
+            profile.setAddress(profileReq.getAddress());
+            profile.setJob(profileReq.getJob());
+            profile.setPhone(profileReq.getPhone());
+            profile.setGender(profileReq.getGender());
             profile.setPassword(passwordEncoder.encode(profile.getPassword()));
             accountService.save(profile);
             return new ResponseEntity<>(account, HttpStatus.OK);
