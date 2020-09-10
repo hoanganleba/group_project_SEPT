@@ -1,32 +1,38 @@
-import "../../style.scss";
+import '../../style.scss';
 
-import React from "react";
+import React from 'react';
 
-import "../../App.scss";
+import '../../App.scss';
 
-import Login  from "./Login";
+import Login from './Login';
 
-import Register from "./Register";
+import Register from './Register';
+
+import UserPage from './UserPage/UserPage';
+
+import AdminPage from './AdminPage/AdminPage';
 
 export default class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogginActive: true,
+      isUser: true,
     };
   }
   componentDidMount() {
     //Add .right by default
-    this.rightSide.classList.add("right");
+    this.rightSide.classList.add('right');
   }
   changeState() {
     const { isLogginActive } = this.state;
+    const { isUser } = this.state;
     if (isLogginActive) {
-      this.rightSide.classList.remove("right");
-      this.rightSide.classList.add("left");
+      this.rightSide.classList.remove('right');
+      this.rightSide.classList.add('left');
     } else {
-      this.rightSide.classList.remove("left");
-      this.rightSide.classList.add("right");
+      this.rightSide.classList.remove('left');
+      this.rightSide.classList.add('right');
     }
     this.setState((prevState) => ({
       isLogginActive: !prevState.isLogginActive,
@@ -34,7 +40,9 @@ export default class Index extends React.Component {
   }
   render() {
     const { isLogginActive } = this.state;
-    const current = isLogginActive ? "Register" : "Login";
+    const { isUser } = this.state;
+    const current = isLogginActive ? 'Register' : 'Login';
+    const user = isUser ? 'Admin' : 'User';
     return (
       <div>
         <div className="App">

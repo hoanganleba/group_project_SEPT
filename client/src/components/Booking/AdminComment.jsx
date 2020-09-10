@@ -5,7 +5,7 @@ import '../../w3school.css';
 import userService from '../../services/userService';
 import reviewService from '../../services/reviewService';
 
-export default class Bookinghistory extends Component {
+class AdminComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ export default class Bookinghistory extends Component {
       customerId: [],
     };
     this.handleChange = this.handleChange.bind(this);
-    this.save = this.save.bind(this);
+    this.saving = this.saving.bind(this);
   }
   async fetchData() {
     const { data } = await reviewService.getAllReviews();
@@ -35,36 +35,33 @@ export default class Bookinghistory extends Component {
     obj[e.target.name] = e.target.value;
     this.setState(obj);
   }
-
-  save() {
-    const customerId = this.state.customerId;
-    const reviewId = this.state.reviewId;
-    const obj = {
-      comment: this.state.comment,
-      rating: this.state.rating,
-    };
-    if(this.state.addNew) {
-      userService.postReview(customerId, obj)
+  saving() {
+    if (this.state.addNew === true) {
+      const id = this.state.customerId;
+      const obj = {
+        comment: this.state.comment,
+        rating: this.state.rating,
+      };
+      userService.postReview(id, obj)
           .then(alert('Comment successfully'))
-          .then(this.fetchData())
           .catch((error) => alert(error))
-          window.location.reload()
-    }
-    else {
-      userService.editReview(customerId, reviewId, obj)
-          .then(alert('Edit comment successfully'))
-          .then(this.fetchData())
-          .catch((error) => alert(error))
-          window.location.reload()
+    } else {
+      const id = this.state.customerId;
+      const reviewId = this.state.reviewId;
+      const obj = {
+        comment: this.state.comment,
+        rating: this.state.rating,
+      };
+      userService.editReview(id, reviewId, obj)
+          .then((res) => console.log(res.data));
     }
   }
-  delete(customerId, reviewId) {
-    if (window.confirm('Do you want to delete?')) {
-      userService.deleteReview(customerId, reviewId)
-          .then(alert('Delete comment successfully'))
-          .then(this.fetchData())
-          window.location.reload()
-          .catch((error) => alert(error))
+
+  delete(id, reviewId) {
+    if (window.confirm('Do you want to cancel?')) {
+      userService
+        .deleteReview(id, reviewId)
+        .then((res) => console.log(res.data));
     }
   }
   edit(reviewId, comment, rating) {
@@ -75,7 +72,15 @@ export default class Bookinghistory extends Component {
       addNew: false,
     });
   }
+  add() {
+    this.setState({
+      comment: '',
+      rating: '',
+      addNew: true,
+    });
+  }
   render() {
+    console.log(this.state.reviewList);
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
@@ -86,10 +91,11 @@ export default class Bookinghistory extends Component {
           >
             <div className="w3-container w3-display-container w3-padding-16">
               <h2 className="w3-text-gray">
-                <strong style={{ textAlign: 'center' }}>
-                  Rating the Service
+                <strong>
+                  <center>Rating the Service</center>
                 </strong>
               </h2>
+
               <div className="form">
                 <div className="row">
                   <div className="w3-padding">
@@ -116,7 +122,6 @@ export default class Bookinghistory extends Component {
                         id="rating"
                         name="rating"
                         value={this.state.rating}
-                        defaultValue={this.state.rating}
                         onChange={this.handleChange}
                       >
                         <option>1</option>
@@ -141,14 +146,13 @@ export default class Bookinghistory extends Component {
                   <table className="w3-table-all">
                     <thead>
                       <tr>
-                        <th>Name</th>
                         <th>Rating</th>
                         <th>Comment</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.reviewList.map((review, index) => (
+                    {this.state.reviewList.map((review, index) => (
                         <tr key={index}>
                           <td>{review.account.firstName} {review.account.lastName}</td>
                           <td>{review.rating}</td>
@@ -182,7 +186,7 @@ export default class Bookinghistory extends Component {
                   </table>
                   <button
                     className="w3-button w3-green"
-                    onClick={this.save.bind(this)}
+                    onClick={this.saving.bind(this)}
                   >
                     Save
                   </button>
@@ -195,3 +199,4 @@ export default class Bookinghistory extends Component {
     );
   }
 }
+export default AdminComment;

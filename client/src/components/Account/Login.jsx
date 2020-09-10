@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import authService from '../../services/authService';
-
+import userService from '../../services/userService';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 class Login extends Component {
@@ -10,12 +10,17 @@ class Login extends Component {
     this.state = {
       userName: '',
       password: '',
+      roles: '',
       redirect: null,
     };
-    this.login = this.login.bind(this);
+  }
+  fetchData() {
+    return userService.get().then((res) => {
+      this.setState({ roles: res.data.roles });
+    });
   }
 
-  login(e) {
+  loginUser() {
     const obj = {
       userName: this.state.userName,
       password: this.state.password,
@@ -24,13 +29,23 @@ class Login extends Component {
       .signIn(obj)
       .then((res) => {
         cookies.set('jwt-token', res.data, { path: '/' });
+        this.fetchData();
       })
-      .then(() => this.setState({ redirect: '/booking' }))
-      .catch((err) => alert('Invalid'));
+      .then(() => {
+        if (this.state.roles === 'ROLE_USER') {
+          this.setState({ roles: '' });
+          this.setState({ redirect: '/booking' });
+        } else if (this.state.roles === 'ROLE_ADMIN') {
+          this.setState({ roles: '' });
+          this.setState({ redirect: '/adminpage' });
+        } else {
+          alert('Access denied');
+        }
+      });
   }
 
   render() {
-    if (this.state.redirect) {
+    if (this.state.redirect && cookies.get('jwt-token')) {
       return <Redirect to={this.state.redirect} />;
     }
     return (
@@ -62,8 +77,7 @@ class Login extends Component {
         </div>
         <div className="footer">
           <button
-            onClick={this.login}
-            type="submit"
+            onClick={() => this.loginUser()}
             className="btn btn-large btn-block btn-success"
           >
             Login

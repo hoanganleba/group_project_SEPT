@@ -1,7 +1,10 @@
 language: java
 jdk:
-  - openjdk8
-  - openjdk9
-os:
-  - linux
-  - osx
+  - oraclejdk8
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn cobertura:cobertura
+script:
+  - mvn test
+
+dist: trusty
