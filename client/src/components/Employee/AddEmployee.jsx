@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import employeeService from '../../services/employeeService';
 
 export default class AddEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
-      gender: "",
-      address: "",
-      job: "",
-      phone: "",
-      email: "",
-      achievements: "",
-      workExperience: "",
+      firstName: '',
+      lastName: '',
+      gender: '',
+      address: '',
+      job: '',
+      phone: '',
+      email: '',
+      achievements: '',
+      workExperience: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -36,25 +36,31 @@ export default class AddEmployee extends React.Component {
       achievements: this.state.achievements,
       workExperience: this.state.workExperience,
     };
-    console.log(this.state.firstName)
-    console.log(this.state.lastName)
-    console.log(this.state.email)
-    console.log(this.state.workExperience)
-    console.log(this.state.address)
-    console.log(this.state.achievements)
-    employeeService.createEmployees(obj)
+    console.log(this.state.firstName);
+    console.log(this.state.lastName);
+    console.log(this.state.email);
+    console.log(this.state.workExperience);
+    console.log(this.state.address);
+    console.log(this.state.achievements);
+    employeeService
+      .createEmployees(obj)
       .then(alert('Create employee profile successfully'))
-      
-      .catch((error) => alert(error))
-    
+
+      .catch((error) => alert(error));
   }
   render() {
     return (
-      <div style={{ background: "lightblue" }}>
+      <div style={{ background: 'lightblue' }}>
         <div className="w3-content" style={{ width: 500 }}>
           <div class="w3-white w3-text-black w3-card-4">
             <br></br>
-            <center><h2><b><p className='w3-text-gray'>Add Employee Profile</p></b></h2></center>
+            <center>
+              <h2>
+                <b>
+                  <p className="w3-text-gray">Add Employee Profile</p>
+                </b>
+              </h2>
+            </center>
             <div className="form">
               <div className="w3-input w3-border">
                 <label>First name: </label>
@@ -80,22 +86,18 @@ export default class AddEmployee extends React.Component {
                 ></input>
               </div>
 
-             
               <div className="w3-input w3-border">
                 <label>Gender: </label>
                 <select
-                        id="gender"
-                        name="gender"
-                        value={this.state.gender}
-                        
-                        onChange={this.handleChange}
-                      >
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                     
-                      </select>
-             
+                  id="gender"
+                  name="gender"
+                  value={this.state.gender}
+                  onChange={this.handleChange}
+                >
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
               </div>
 
               <div className="w3-input w3-border">
@@ -170,9 +172,12 @@ export default class AddEmployee extends React.Component {
                 ></input>
               </div>
               <div className="footer">
-                <center><button onClick={this.save} className="btn btn-success">Save</button></center>
+                <center>
+                  <button onClick={this.save} className="btn btn-success">
+                    Save
+                  </button>
+                </center>
               </div>
-
             </div>
           </div>
         </div>

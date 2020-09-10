@@ -146,6 +146,7 @@ class AdminComment extends Component {
                   <table className="w3-table-all">
                     <thead>
                       <tr>
+                        <th>Customer</th>
                         <th>Rating</th>
                         <th>Comment</th>
                         <th>Actions</th>

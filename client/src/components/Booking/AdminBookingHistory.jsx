@@ -23,17 +23,13 @@ class AdminBookinghistory extends Component {
 
   }
   async fetchData() {
-    const { data } = await userService.get();
-    const { data2 } = await bookingService.getAllBooking();
+    const {data} = await bookingService.getAllBooking();
     return this.setState({
-      bookingList: data.bookingHistories,
-      customerId: data.id,
-
+      bookingList: data,
     });
   }
   componentDidMount() {
     this.fetchData();
-
   }
   filterbyop1() {
     userService.getall().then(
@@ -82,29 +78,20 @@ class AdminBookinghistory extends Component {
     console.log(this.state.endDateTime)
   }
   accept(bookingId) {
-    this.edit()
-
     const obj = {
-
       status: 'Accept',
     };
-
     bookingService
-      .editBooking(bookingId, obj)
-      .then(() => window.location.reload());
-    return this.fetchData();
-
+      .changeStatus(bookingId, obj)
+      .then(() => this.fetchData());
   }
   reject(bookingId) {
     const obj = {
-
-
       status: 'Reject',
     };
     bookingService
-      .editBooking(bookingId, obj)
-      .then(() => window.location.reload());
-    return this.fetchData();
+      .changeStatus(bookingId, obj)
+      .then(() => this.fetchData());
   }
 
   render() {
@@ -122,9 +109,7 @@ class AdminBookinghistory extends Component {
 
               </div>
             ) :
-              (
-                null
-              )
+              (null)
             }
 
           </div>
@@ -132,22 +117,22 @@ class AdminBookinghistory extends Component {
           <table className="w3-table-all">
             <thead>
               <tr>
+                <th>Customer</th>
                 <th>Check in</th>
                 <th>Check out</th>
                 <th>Court Type</th>
                 <th>Status</th>
-                <th>Customer ID</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {this.state.bookingList.map((book, index) => (
                 <tr key={index}>
+                  <td>{book.account.firstName} {book.account.lastName}</td>
                   <td>{book.startDateTime}</td>
                   <td>{book.endDateTime}</td>
                   <td>{book.type}</td>
                   <td>{book.status}</td>
-                  <td>{this.state.customerId}</td>
                   <td>
                     <button
                       className="btn-danger w3-padding"
@@ -158,23 +143,16 @@ class AdminBookinghistory extends Component {
 
                     <button
                       className="btn-danger w3-padding"
-                      onClick={this.delete.bind(
-                        this,
-                        this.state.customerId,
-                        book.id
+                      onClick={this.reject.bind(
+                        this, book.id
                       )}
                     >
                       Reject
                     </button>
                     <button
                       className="btn-success w3-padding"
-                      onClick={this.edit.bind(
-                        this,
-                        book.bookingId,
-                        book.startDateTime,
-                        book.endDateTime,
-                        book.type,
-                        book.status,
+                      onClick={this.accept.bind(
+                        this, book.id,
                       )}
                     >
                       Accept

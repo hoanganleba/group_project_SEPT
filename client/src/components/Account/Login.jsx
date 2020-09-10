@@ -1,63 +1,50 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import { Redirect } from 'react-router-dom';
 import authService from '../../services/authService';
 import userService from '../../services/userService';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: '',
-      password: '',
-      roles: '',
-      redirect: null,
-    };
-  }
-  fetchData() {
-    return userService.get().then((res) => {
-      this.setState({ roles: res.data.roles });
-    });
-  }
+import Cookies from "js-cookie";
+import AuthApi from "../../AuthApi";
+import setAuthorizationToken from "../../services/setAuthorizationToken";
 
-  loginUser() {
+function Login () {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(null);
+  const Auth = React.useContext(AuthApi);
+
+  async function loginUser() {
     const obj = {
-      userName: this.state.userName,
-      password: this.state.password,
+      userName: userName,
+      password: password,
     };
-    authService
-      .signIn(obj)
-      .then((res) => {
-        cookies.set('jwt-token', res.data, { path: '/' });
-        this.fetchData();
-      })
-      .then(() => {
-        if (this.state.roles === 'ROLE_USER') {
-          this.setState({ roles: '' });
-          this.setState({ redirect: '/booking' });
-        } else if (this.state.roles === 'ROLE_ADMIN') {
-          this.setState({ roles: '' });
-          this.setState({ redirect: '/adminpage' });
-        } else {
-          alert('Access denied');
-        }
-      });
+    const { data } = await authService.signIn(obj);
+    await Cookies.set("token", data);
+    setAuthorizationToken(data);
+    const response = await userService.get();
+    const userData = response.data;
+    if(userData.roles === "ROLE_USER") {
+      Auth.setAuth(true);
+      setRedirect('/booking')
+    }
+    if(userData.roles === "ROLE_ADMIN") {
+      Auth.setAuth(true);
+      setRedirect('/adminPage');
+    }
   }
 
-  render() {
-    if (this.state.redirect && cookies.get('jwt-token')) {
-      return <Redirect to={this.state.redirect} />;
+    if (redirect) {
+      return <Redirect to={redirect} />;
     }
     return (
-      <div className="base-container" ref={this.props.containerRef}>
+      <div className="base-container">
         <div className="header">Login</div>
         <div className="content">
           <div className="form">
             <div className="form-group">
               <label>UserName:</label>
               <input
-                onChange={(e) => this.setState({ userName: e.target.value })}
-                value={this.state.userName}
+                onChange={(e) => setUserName(e.target.value)}
+                value={userName}
                 type="text"
                 name="userName"
                 id="userName"
@@ -66,8 +53,8 @@ class Login extends Component {
             <div className="form-group">
               <label>Password:</label>
               <input
-                onChange={(e) => this.setState({ password: e.target.value })}
-                value={this.state.password}
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 type="password"
                 name="password"
                 id="password"
@@ -77,7 +64,7 @@ class Login extends Component {
         </div>
         <div className="footer">
           <button
-            onClick={() => this.loginUser()}
+            onClick={() => loginUser()}
             className="btn btn-large btn-block btn-success"
           >
             Login
@@ -85,7 +72,6 @@ class Login extends Component {
         </div>
       </div>
     );
-  }
 }
 
 export default Login;

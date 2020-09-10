@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../w3school.css';
-import Cookies from "universal-cookie";
 import userService from '../services/userService';
-const cookies = new Cookies();
-class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirect: null,
-      userName: '',
-    };
-    this.signOut = this.signOut.bind(this);
-  }
-  signOut() {
-    cookies.remove('jwt-token');
-    this.setState({ redirect: '/' });
+import Cookies from "js-cookie"
+import AuthApi from "../AuthApi";
+function NavBar() {
+  const [redirect, setRedirect] = useState(null);
+  const [userName, setUserName] = useState('');
+  const Auth = React.useContext(AuthApi);
+
+  const signOut = () => {
+    Cookies.remove('token');
+    Auth.setAuth(false);
+    setRedirect('/');
   }
 
-  async fetchData() {
-    const { data } = await userService.get();
-    return this.setState({
-      userName: data.userName,
-    });
-  }
-  componentDidMount() {
-    return this.fetchData();
+  async function fetchData() {
+    const {data} = await userService.get();
+    setUserName(data.userName)
   }
 
-  render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
-    }
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
     return (  
       <div className="w3-top" style={{ zIndex: '1000' }}>
         <div className="w3-bar w3-white w3-wide w3-padding w3-card">
@@ -52,8 +47,8 @@ class NavBar extends Component {
               <li className="w3-bar-item w3-button">
                 <Link to={'/history'}>Booking History</Link>
               </li>
-              <li className="w3-bar-item w3-button">Welcome {this.state.userName}</li>
-              <button className="w3-bar-item w3-button" onClick={this.signOut}>
+              <li className="w3-bar-item w3-button">Welcome {userName}</li>
+              <button className="w3-bar-item w3-button" onClick={() => signOut()}>
                 Log out
               </button>
             </ul>
@@ -61,7 +56,6 @@ class NavBar extends Component {
         </div>
       </div>
     );
-  }
 }
 
 export default NavBar

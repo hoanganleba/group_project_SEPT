@@ -10,7 +10,7 @@ export default {
     editEmployees(id,obj){
         return axios.put(`/employees/${id}`,obj)
     },
-    getEmployees(id){
+    getEmployee(id){
         return axios.get(`/employees/${id}`)
     },
 }

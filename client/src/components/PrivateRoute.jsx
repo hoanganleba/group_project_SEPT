@@ -1,16 +1,18 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import AuthApi from "../AuthApi";
+
+
 function PrivateRoute({ children, ...rest }) {
+    const Auth = React.useContext(AuthApi);
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        cookies.get("jwt-token") ? (
+      render={() =>
+        Auth.auth ? (
           children
         ) : (
-          <Redirect to={{ path: "/", state: { from: location } }} />
+          <Redirect to={{ path: "/" }} />
         )
       }
     />

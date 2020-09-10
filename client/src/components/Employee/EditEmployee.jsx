@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import employeeService from '../../services/employeeService';
 
@@ -6,7 +6,7 @@ export default class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id:0,
+      id: 0,
       firstName: '',
       lastName: '',
       email: '',
@@ -14,8 +14,8 @@ export default class EditProfile extends React.Component {
       gender: '',
       job: '',
       phone: '',
-      achievements:'',
-      workExperience:''
+      achievements: '',
+      workExperience: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -23,7 +23,7 @@ export default class EditProfile extends React.Component {
   async fetchData() {
     const { data } = await employeeService.getAllEmployees();
     return this.setState({
-        id:data.id,
+      id: data.id,
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -37,7 +37,7 @@ export default class EditProfile extends React.Component {
   }
   componentDidMount() {
     return this.fetchData();
-    window.location.reload()
+    window.location.reload();
   }
   handleChange(e) {
     const obj = {};
@@ -45,7 +45,7 @@ export default class EditProfile extends React.Component {
     this.setState(obj);
   }
   save() {
-      const id = this.state.id;
+    const id = this.state.id;
     const obj = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -57,20 +57,27 @@ export default class EditProfile extends React.Component {
       job: this.state.job,
       phone: this.state.phone,
     };
- 
-    employeeService.editEmployees(id,obj)
+
+    employeeService
+      .editEmployees(id, obj)
       .then(alert('Edit profile successfully'))
       .then(this.fetchData())
-      .catch((error) => alert(error))
-    window.location.reload()
+      .catch((error) => alert(error));
+    window.location.reload();
   }
   render() {
     return (
-      <div style={{ background: "lightblue" }}>
+      <div style={{ background: 'lightblue' }}>
         <div className="w3-content" style={{ width: 500 }}>
           <div class="w3-white w3-text-black w3-card-4">
             <br></br>
-            <center><h2><b><p className='w3-text-gray'>Change Employee Profile Here</p></b></h2></center>
+            <center>
+              <h2>
+                <b>
+                  <p className="w3-text-gray">Change Employee Profile Here</p>
+                </b>
+              </h2>
+            </center>
             <div className="form">
               <div className="w3-input w3-border">
                 <label>First name: </label>
@@ -80,7 +87,8 @@ export default class EditProfile extends React.Component {
                   id="firstName"
                   onChange={this.handleChange}
                   value={this.state.firstName}
-                  placeholder={this.state.firstName} ></input>
+                  placeholder={this.state.firstName}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -91,8 +99,8 @@ export default class EditProfile extends React.Component {
                   id="lastName"
                   onChange={this.handleChange}
                   value={this.state.lastName}
-                  placeholder={this.state.lastName} ></input>
-
+                  placeholder={this.state.lastName}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -103,8 +111,8 @@ export default class EditProfile extends React.Component {
                   id="email"
                   onChange={this.handleChange}
                   value={this.state.email}
-                  placeholder={this.state.email} ></input>
-
+                  placeholder={this.state.email}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -115,26 +123,24 @@ export default class EditProfile extends React.Component {
                   id="address"
                   onChange={this.handleChange}
                   value={this.state.address}
-                  placeholder={this.state.address} ></input>
+                  placeholder={this.state.address}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
                 <label>Gender:</label>
                 <select
-
                   name="gender"
                   id="gender"
                   onChange={this.handleChange}
                   value={this.state.gender}
                   defaultValue={this.state.gender}
-                  placeholder={this.state.gender} >
-
+                  placeholder={this.state.gender}
+                >
                   <option>Female</option>
                   <option>Male</option>
                   <option>Other</option>
-
                 </select>
-
               </div>
 
               <div className="w3-input w3-border">
@@ -145,8 +151,8 @@ export default class EditProfile extends React.Component {
                   id="job"
                   onChange={this.handleChange}
                   value={this.state.job}
-                  placeholder={this.state.job} ></input>
-
+                  placeholder={this.state.job}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -157,8 +163,8 @@ export default class EditProfile extends React.Component {
                   id="phone"
                   onChange={this.handleChange}
                   value={this.state.phone}
-                  placeholder={this.state.phone} ></input>
-
+                  placeholder={this.state.phone}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -169,7 +175,8 @@ export default class EditProfile extends React.Component {
                   id="achievements"
                   onChange={this.handleChange}
                   value={this.state.achievements}
-                  placeholder={this.state.achievements} ></input>
+                  placeholder={this.state.achievements}
+                ></input>
               </div>
 
               <div className="w3-input w3-border">
@@ -180,13 +187,20 @@ export default class EditProfile extends React.Component {
                   id="workExperience"
                   onChange={this.handleChange}
                   value={this.state.workExperience}
-                  placeholder={this.state.workExperience} ></input>
+                  placeholder={this.state.workExperience}
+                ></input>
               </div>
 
               <div className="footer">
-                <center><button onClick={this.save.bind(this)} className="btn btn-success">Save</button></center>
+                <center>
+                  <button
+                    onClick={this.save.bind(this)}
+                    className="btn btn-success"
+                  >
+                    Save
+                  </button>
+                </center>
               </div>
-
             </div>
           </div>
         </div>

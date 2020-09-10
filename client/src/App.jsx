@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Index from './components/Account/Index';
 import BookingForm from './components/Booking/BookingForm';
@@ -6,10 +6,9 @@ import Comment from './components/Booking/Comment';
 import NavBar from './components/NavBar';
 import BookingHistory from './components/Booking/BookingHistory';
 import PrivateRoute from './components/PrivateRoute';
-import Profile from "./components/Account/Profile";
-import EditProfile from "./components/Account/EditProfile";
+import Profile from './components/Account/Profile';
+import EditProfile from './components/Account/EditProfile';
 
-import UserPage from './components/Account/UserPage/UserPage';
 import UserList from './components/Account/UserPage/UserList';
 
 import AdminNavBar from './components/AdminNavBar';
@@ -17,15 +16,16 @@ import AdminBookingHistory from './components/Booking/AdminBookingHistory';
 import AdminComment from './components/Booking/AdminComment';
 import AdminPage from './components/Booking/AdminPage';
 
-import ManageEmployee from "./components/Employee/ManageEmployee";
+import ManageEmployee from './components/Employee/ManageEmployee';
 import EmployeeProfile from './components/Employee/EmployeeProfile';
 import AddEmployee from './components/Employee/AddEmployee';
 import EditEmployee from './components/Employee/EditEmployee';
 import './App.scss';
 import './w3school.css';
-
+import AuthApi from "./AuthApi";
 
 function App() {
+  const Auth = useContext(AuthApi)
   return (
     <Router>
       <Switch>
@@ -42,7 +42,7 @@ function App() {
           <PrivateRoute path="/history">
             <NavBar />
             <BookingHistory />
-          </PrivateRoute>      
+          </PrivateRoute>
           <PrivateRoute path="/profile">
             <NavBar />
             <Profile />
@@ -51,12 +51,11 @@ function App() {
             <NavBar />
             <EditProfile />
           </PrivateRoute>
-
           <PrivateRoute path="/manageemployee">
             <AdminNavBar />
             <ManageEmployee />
           </PrivateRoute>
-          <PrivateRoute path="/employeeprofile">
+          <PrivateRoute path="/employeeprofile/:id">
             <AdminNavBar />
             <EmployeeProfile />
           </PrivateRoute>
@@ -64,7 +63,7 @@ function App() {
             <AdminNavBar />
             <AddEmployee />
           </PrivateRoute>
-          <PrivateRoute path="/editemployee">
+          <PrivateRoute path="/editemployee/:id">
             <AdminNavBar />
             <EditEmployee />
           </PrivateRoute>
@@ -87,7 +86,6 @@ function App() {
         </div>
       </Switch>
     </Router>
-    
   );
 }
 export default App;
