@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
@@ -19,6 +19,7 @@ class BookingForm extends Component {
       type: 'Normal',
       status:'Pending',
       addNew: true,
+      redirect: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -46,17 +47,26 @@ class BookingForm extends Component {
       type: this.state.type,
       status:this.state.status,
     };
-    console.log(this.state.status)
-    console.log(this.state.startDateTime)
     bookingService
       .postBooking(obj)
       .then(() => {
-        alert('Booking successfully ');
+        alert('Booking successfully');
+        this.setState({redirect: '/history'})
       })
-      .catch((err) => alert(err.response.data.message));
+      .catch((err) => {
+        if(err.response.status === 403) {
+          alert(err.response.data.message)
+        }
+        else {
+          alert("There is something wrong with the server")
+        }
+      });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div className="w3-content w3-border-left w3-border-right">
         <div
@@ -120,18 +130,12 @@ class BookingForm extends Component {
                   </select>
                 </div>
                 <div className="footer">
-                  <center>
-                  <Link to={'/history'}>
-                    <button
+                  <button
                       className="w3-button w3-green"
                       onClick={this.save.bind(this)}
                       
-                    >
-                      
-                      Submit
-                    </button>
-                    </Link>
-                  </center>
+                  >Submit
+                  </button>
                 </div>
               </div>
             </div>
