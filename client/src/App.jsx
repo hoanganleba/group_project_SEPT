@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Index from './components/Account/Index';
-import BookingForm from './components/Booking/BookingForm';
+import BookingForm from './components/Booking/Bookingform';
 import Comment from './components/Booking/Comment';
 import NavBar from './components/NavBar';
 import BookingHistory from './components/Booking/BookingHistory';
@@ -22,10 +22,8 @@ import AddEmployee from './components/Employee/AddEmployee';
 import EditEmployee from './components/Employee/EditEmployee';
 import './App.scss';
 import './w3school.css';
-import AuthApi from "./AuthApi";
 
 function App() {
-  const Auth = useContext(AuthApi)
   return (
     <Router>
       <Switch>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../w3school.css';
-import Cookies from 'universal-cookie';
 import userService from '../services/userService';
-const cookies = new Cookies();
+import setAuthorizationToken from "../services/setAuthorizationToken";
+
 class AdminNavBar extends Component {
   constructor(props) {
     super(props);
@@ -14,17 +14,19 @@ class AdminNavBar extends Component {
     this.signOut = this.signOut.bind(this);
   }
   signOut() {
-    cookies.remove('jwt-token');
+    localStorage.removeItem('token');
     this.setState({ redirect: '/' });
   }
 
   async fetchData() {
+    setAuthorizationToken(localStorage.getItem('token'))
     const { data } = await userService.get();
     return this.setState({
       userName: data.userName,
     });
   }
-  componentDidMount() {
+
+  componentWillMount() {
     return this.fetchData();
   }
 

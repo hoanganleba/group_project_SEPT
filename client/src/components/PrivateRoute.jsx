@@ -1,20 +1,12 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import AuthApi from "../AuthApi";
-
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 
 function PrivateRoute({ children, ...rest }) {
-    const Auth = React.useContext(AuthApi);
+  const token = localStorage.getItem('token');
   return (
     <Route
       {...rest}
-      render={() =>
-        Auth.auth ? (
-          children
-        ) : (
-          <Redirect to={{ path: "/" }} />
-        )
-      }
+      render={() => (token ? children : <Redirect to={{ path: '/' }} />)}
     />
   );
 }

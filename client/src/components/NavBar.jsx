@@ -1,61 +1,69 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../w3school.css';
 import userService from '../services/userService';
-import Cookies from "js-cookie"
-import AuthApi from "../AuthApi";
-function NavBar() {
-  const [redirect, setRedirect] = useState(null);
-  const [userName, setUserName] = useState('');
-  const Auth = React.useContext(AuthApi);
+import setAuthorizationToken from "../services/setAuthorizationToken";
 
-  const signOut = () => {
-    Cookies.remove('token');
-    Auth.setAuth(false);
-    setRedirect('/');
+class NavBar extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: null,
+      userName: '',
+    };
+    this.signOut = this.signOut.bind(this);
+  }
+  signOut() {
+    localStorage.removeItem('token');
+    this.setState({ redirect: '/' });
   }
 
-  async function fetchData() {
-    const {data} = await userService.get();
-    setUserName(data.userName)
+  async fetchData() {
+    setAuthorizationToken(localStorage.getItem('token'))
+    const { data } = await userService.get();
+    return this.setState({
+      userName: data.userName,
+    });
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  if (redirect) {
-    return <Redirect to={redirect} />;
+  componentWillMount() {
+    return this.fetchData();
   }
-    return (  
-      <div className="w3-top" style={{ zIndex: '1000' }}>
-        <div className="w3-bar w3-white w3-wide w3-padding w3-card">
-          <li className="w3-bar-item w3-button">
-            <Link to={'/booking'}>
-              <i className="fa fa-home fa-fw w3-large w3-text-teal" />
-              <b>Home</b>
-            </Link>
-          </li>
-          <div className="w3-right w3-hide-small">
-            <ul>
-              <li className="w3-bar-item w3-button">
-                <Link to={'/booking'}>Booking</Link>
-              </li>
-              <li className="w3-bar-item w3-button">
-                <Link to={'/comment'}>Comment and Rating</Link>
-              </li>
-              <li className="w3-bar-item w3-button">
-                <Link to={'/history'}>Booking History</Link>
-              </li>
-              <li className="w3-bar-item w3-button">Welcome {userName}</li>
-              <button className="w3-bar-item w3-button" onClick={() => signOut()}>
-                Log out
-              </button>
-            </ul>
+
+  render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect}/>;
+    }
+    return (
+        <div className="w3-top" style={{zIndex: '1000'}}>
+          <div className="w3-bar w3-white w3-wide w3-padding w3-card">
+            <li className="w3-bar-item w3-button">
+              <Link to={'/booking'}>
+                <i className="fa fa-home fa-fw w3-large w3-text-teal"/>
+                <b>Home</b>
+              </Link>
+            </li>
+            <div className="w3-right w3-hide-small">
+              <ul>
+                <li className="w3-bar-item w3-button">
+                  <Link to={'/booking'}>Booking</Link>
+                </li>
+                <li className="w3-bar-item w3-button">
+                  <Link to={'/comment'}>Comment and Rating</Link>
+                </li>
+                <li className="w3-bar-item w3-button">
+                  <Link to={'/history'}>Booking History</Link>
+                </li>
+                <li className="w3-bar-item w3-button">Welcome {this.state.userName}</li>
+                <button className="w3-bar-item w3-button" onClick={this.signOut}>
+                  Log out
+                </button>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
     );
+  }
 }
 
 export default NavBar
