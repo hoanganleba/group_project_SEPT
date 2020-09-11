@@ -65,9 +65,10 @@ export default class Bookingform extends Component {
   render() {
     return (
       <div>
+        <br/>
         <div className="w3-content w3-border-left w3-border-right">
           <div
-            className="w3-sidebar w3-light-grey w3-collapse "
+            className="w3-sidebar w3-light-grey w3-collapse"
             style={{ zIndex: 3, width: 260 }}
             id="mySidebar"
           >

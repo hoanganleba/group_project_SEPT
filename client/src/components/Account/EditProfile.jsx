@@ -59,7 +59,7 @@ export default class EditProfile extends React.Component {
                     value={this.state.fname}
                     onChange={this.handleChange}
                     required
-                    ></input>
+                    />
                 </div>
 
                 <div className="w3-input w3-border">
@@ -71,7 +71,7 @@ export default class EditProfile extends React.Component {
                     value={this.state.lname}
                     onChange={this.handleChange}
                     required
-                    ></input>
+                    />
                 </div>
 
                 <div className="w3-input w3-border">
@@ -90,7 +90,7 @@ export default class EditProfile extends React.Component {
                 </div>
                 
                 <div className="footer">        
-                    <center><button onClick={this.save} className="btn btn-success">Save</button></center>             
+                    <center><button onClick={this.save} className="btn btn-success w3-margin">Save</button></center>
                 </div>
 
             </div>

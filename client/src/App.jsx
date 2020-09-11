@@ -15,6 +15,7 @@ import ManageEmployee from "./components/Employee/ManageEmployee";
 import EmpployeeProfile from "./components/Employee/EmployeeProfile"
 import EmployeeProfile from './components/Employee/EmployeeProfile';
 import AddEmployee from './components/Employee/AddEmployee';
+import ChangePassword from "./components/Account/ChangePassword";
 
 class App extends React.Component {
   render() {
@@ -34,6 +35,7 @@ class App extends React.Component {
               <Route exact path="/manageemployee" component={ManageEmployee}/>
               <Route exact path="/employeeprofile" component={EmployeeProfile}/>
               <Route exact path="/addemployee" component={AddEmployee}/>
+              <Route exact path="/changepassword" component={ChangePassword}/>
           </div>
         </BrowserRouter>
     )

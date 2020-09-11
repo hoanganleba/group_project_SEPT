@@ -45,11 +45,11 @@ export class Register extends React.Component {
                     <div className="form">
                         <div className="form-group">
                             <label>First name: </label>
-                            <input type="text" id="fname" name="fname" value={this.state.fname} onChange={this.handleChange} required></input>                      
+                            <input type="text" id="fname" name="fname" value={this.state.fname} onChange={this.handleChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Last name: </label>
-                            <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange} required></input>                      
+                            <input type="text" id="lname" name="lname" value={this.state.lname} onChange={this.handleChange} required/>
                         </div>
 
                         <div className="form-group">
