@@ -25,9 +25,7 @@ class Register extends React.Component {
 
   save() {
    
-    console.log(this.state.address)
-    console.log(this.state.email)
-    console.log(this.state.job)
+   
     const obj = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,

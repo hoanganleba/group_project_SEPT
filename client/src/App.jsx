@@ -1,15 +1,15 @@
+  
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Index from './components/Account/Index';
-import BookingForm from './components/Booking/Bookingform';
+import BookingForm from './components/Booking/BookingForm';
 import Comment from './components/Booking/Comment';
 import NavBar from './components/NavBar';
 import BookingHistory from './components/Booking/BookingHistory';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './components/Account/Profile';
 import EditProfile from './components/Account/EditProfile';
-
-import UserList from './components/Account/UserPage/UserList';
+import ChangePassword from './components/Account/ChangePassword'
 
 import AdminNavBar from './components/AdminNavBar';
 import AdminBookingHistory from './components/Booking/AdminBookingHistory';
@@ -22,6 +22,7 @@ import AddEmployee from './components/Employee/AddEmployee';
 import EditEmployee from './components/Employee/EditEmployee';
 import './App.scss';
 import './w3school.css';
+import AuthApi from "./AuthApi";
 
 function App() {
   return (
@@ -48,6 +49,10 @@ function App() {
           <PrivateRoute path="/editprofile">
             <NavBar />
             <EditProfile />
+          </PrivateRoute>
+          <PrivateRoute path="/changepassword">
+            <NavBar />
+            <ChangePassword />
           </PrivateRoute>
           <PrivateRoute path="/manageemployee">
             <AdminNavBar />
@@ -77,10 +82,7 @@ function App() {
             <AdminNavBar />
             <AdminBookingHistory />
           </PrivateRoute>
-          <PrivateRoute path="/userList">
-            <AdminNavBar />
-            <UserList />
-          </PrivateRoute>
+     
         </div>
       </Switch>
     </Router>

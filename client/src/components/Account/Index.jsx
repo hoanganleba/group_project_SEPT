@@ -8,9 +8,6 @@ import Login from './Login';
 
 import Register from './Register';
 
-import UserPage from './UserPage/UserPage';
-
-import AdminPage from './AdminPage/AdminPage';
 
 export default class Index extends React.Component {
   constructor(props) {

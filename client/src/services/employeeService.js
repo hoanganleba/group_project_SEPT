@@ -13,4 +13,7 @@ export default {
     getEmployee(id){
         return axios.get(`/employees/${id}`)
     },
+    deleteEmployee(id){
+        return axios.delete(`/employees/${id}`)
+    },
 }

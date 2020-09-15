@@ -12,18 +12,17 @@ class AdminBookinghistory extends Component {
     this.state = {
       customerId: 0,
       bookingList: [],
-      bookingId:0,
+      bookingId: 0,
       startDateTime: '',
       endDateTime: '',
       type: '',
       status: '',
     };
-    this.showDropdownMenu = this.showDropdownMenu.bind(this);
-    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+   
 
   }
   async fetchData() {
-    const {data} = await bookingService.getAllBooking();
+    const { data } = await bookingService.getAllBooking();
     return this.setState({
       bookingList: data,
     });
@@ -31,51 +30,27 @@ class AdminBookinghistory extends Component {
   componentDidMount() {
     this.fetchData();
   }
-  filterbyop1() {
-    userService.getall().then(
-      res => {
-        const list = res.data
-        let filterlist = list.filter(s => String(s.roles).startsWith('ROLE_ADMIN'))
-        this.setState({ details: filterlist })
 
-      })
-  }
-  showDropdownMenu(event) {
-    event.preventDefault();
-    this.setState({ displayMenu: true }, () => {
-      document.addEventListener('click', this.hideDropdownMenu);
-    });
-  }
 
-  hideDropdownMenu() {
-    this.setState({ displayMenu: false }, () => {
-      document.removeEventListener('click', this.hideDropdownMenu);
-    });
-
-  }
   delete(bookingId) {
     if (window.confirm('Do you want to cancel?')) {
       bookingService
         .cancelBooking(bookingId)
-        .then(() => window.location.reload());
-      return this.fetchData();
+        .then(() => this.fetchData());
+
     }
   }
-  edit(bookingId,startDateTime, endDateTime, type, status) {
+  edit(bookingId, startDateTime, endDateTime, type, status) {
     this.setState({
-      bookingId:bookingId,
+      bookingId: bookingId,
       startDateTime: startDateTime,
       endDateTime: endDateTime,
       type: type,
       status: status,
       addNew: false,
     });
-   
-    console.log(this.state.bookingId)
-    console.log(this.state.type)
-    console.log(this.state.status)
-    console.log(this.state.startDateTime)
-    console.log(this.state.endDateTime)
+
+
   }
   accept(bookingId) {
     const obj = {
@@ -99,20 +74,6 @@ class AdminBookinghistory extends Component {
       <div>
         <div className="w3-content w3-border-left w3-border-right">
 
-          <div className="dropdown" >
-            <div className="btn btn-success" onClick={this.showDropdownMenu}> Filter </div>
-
-            {this.state.displayMenu ? (
-              <div>
-                <button className='btn btn-dark' onClick={this.fetchData.bind(this)}>All</button>
-                <button className='btn btn-dark' onClick={this.filterbyop1.bind(this)}>January</button>
-
-              </div>
-            ) :
-              (null)
-            }
-
-          </div>
 
           <table className="w3-table-all">
             <thead>
@@ -138,7 +99,7 @@ class AdminBookinghistory extends Component {
                       className="btn-danger w3-padding"
                       onClick={this.delete.bind(this, book.id)}
                     >
-                      Cancel
+                      Delete
                     </button>
 
                     <button

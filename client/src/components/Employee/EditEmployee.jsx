@@ -1,12 +1,12 @@
 import React from 'react';
 
 import employeeService from '../../services/employeeService';
-
-export default class EditProfile extends React.Component {
+import { withRouter } from "react-router";
+ class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
+      id: 1,
       firstName: '',
       lastName: '',
       email: '',
@@ -20,8 +20,8 @@ export default class EditProfile extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
   }
-  async fetchData() {
-    const { data } = await employeeService.getAllEmployees();
+  async fetchData(id) {
+    const { data } = await employeeService.getEmployee(id);
     return this.setState({
       id: data.id,
       firstName: data.firstName,
@@ -34,10 +34,13 @@ export default class EditProfile extends React.Component {
       job: data.job,
       phone: data.phone,
     });
+    this.handleChange = this.handleChange.bind(this);
+    this.save = this.save.bind(this);
   }
   componentDidMount() {
-    return this.fetchData();
-    window.location.reload();
+    const id = this.props.match.params.id;
+    return this.fetchData(id);
+    
   }
   handleChange(e) {
     const obj = {};
@@ -45,7 +48,7 @@ export default class EditProfile extends React.Component {
     this.setState(obj);
   }
   save() {
-    const id = this.state.id;
+    var id = this.state.id;
     const obj = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -57,13 +60,13 @@ export default class EditProfile extends React.Component {
       job: this.state.job,
       phone: this.state.phone,
     };
-
-    employeeService
-      .editEmployees(id, obj)
-      .then(alert('Edit profile successfully'))
-      .then(this.fetchData())
-      .catch((error) => alert(error));
-    window.location.reload();
+    console.log(id)
+    console.log(obj)
+ 
+    employeeService.editEmployees(id,obj)
+    .then(alert('Edit employee profile successfully'))
+   
+    .catch((error) => alert(error))
   }
   render() {
     return (
@@ -169,26 +172,26 @@ export default class EditProfile extends React.Component {
 
               <div className="w3-input w3-border">
                 <label>Achievements:</label>
-                <input
+                <textarea
                   type="text"
                   name="achievements"
                   id="achievements"
                   onChange={this.handleChange}
                   value={this.state.achievements}
                   placeholder={this.state.achievements}
-                ></input>
+                ></textarea>
               </div>
 
               <div className="w3-input w3-border">
                 <label>Work experience:</label>
-                <input
+                <textarea
                   type="text"
                   name="workExperience"
                   id="workExperience"
                   onChange={this.handleChange}
                   value={this.state.workExperience}
                   placeholder={this.state.workExperience}
-                ></input>
+                ></textarea>
               </div>
 
               <div className="footer">
@@ -208,3 +211,4 @@ export default class EditProfile extends React.Component {
     );
   }
 }
+export default withRouter(EditProfile);

@@ -150,26 +150,26 @@ export default class AddEmployee extends React.Component {
 
               <div className="w3-input w3-border">
                 <label>Achievements: </label>
-                <input
+                <textarea
                   type="text"
                   id="achievements"
                   name="achievements"
                   value={this.state.achievements}
                   onChange={this.handleChange}
                   required
-                ></input>
+                ></textarea>
               </div>
 
               <div className="w3-input w3-border">
                 <label>Work experience: </label>
-                <input
+                <textarea
                   type="text"
                   id="workExperience"
                   name="workExperience"
                   value={this.state.workExperience}
                   onChange={this.handleChange}
                   required
-                ></input>
+                ></textarea>
               </div>
               <div className="footer">
                 <center>

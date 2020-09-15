@@ -29,7 +29,7 @@ class List extends React.Component {
     if (window.confirm('Do you want to cancel?')) {
       bookingService
         .cancelBooking(bookingId)
-        .then(() => window.location.reload());
+        
       return this.fetchData();
     }
   }

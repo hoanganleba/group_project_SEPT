@@ -22,7 +22,14 @@ export default class ManageEmployee extends Component {
   componentDidMount() {
     return this.fetchData();
   }
-
+  deleteEmployee(id){
+    if (window.confirm('Do you want to deletedelete?')) {
+      employeeService
+        .deleteEmployee(id)
+       
+      return this.fetchData();
+    }
+  }
   render() {
     return (
       <div>
@@ -46,8 +53,15 @@ export default class ManageEmployee extends Component {
                   <p>
                     {employee.firstName} {employee.lastName}
                   </p>
+                  <button
+                      className="btn-danger w3-padding"
+                      onClick={this.deleteEmployee.bind(this, employee.id)}
+                    >
+                      delete
+                    </button>
                 </div>
               </div>
+              /* delete */
             ))}
           </div>
         </div>

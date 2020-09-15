@@ -34,7 +34,7 @@ export default class EditProfile extends React.Component {
   }
   componentDidMount() {
     return this.fetchData();
-    window.location.reload()
+   
   }
   handleChange(e) {
     const obj = {};
@@ -47,20 +47,17 @@ export default class EditProfile extends React.Component {
       lastName: this.state.lastName,
       email: this.state.email,
       userName: this.state.userName,
-      passWord: this.state.passWord,
+      
       address: this.state.address,
       gender: this.state.gender,
       job: this.state.job,
       phone: this.state.phone,
     };
-    console.log(this.state.firstName)
-    console.log(this.state.lastName)
-    console.log(this.state.email)
+    console.log(obj)
     userService.editUserDetails(obj)
-      .then(alert('Edit profile successfully'))
-      .then(this.fetchData())
-      .catch((error) => alert(error))
-    window.location.reload()
+    .then(alert('Edit profile successfully'))
+    .then(this.fetchData())
+    .catch((error) => alert(error))
   }
   render() {
     return (
@@ -159,29 +156,7 @@ export default class EditProfile extends React.Component {
                   placeholder={this.state.phone} ></input>
 
               </div>
-
-              <div className="w3-input w3-border">
-                <label>User Name:</label>
-                <input
-                  type="text"
-                  name="userName"
-                  id="userName"
-                  onChange={this.handleChange}
-                  value={this.state.userName}
-                  placeholder={this.state.userName} ></input>
-              </div>
-
-              <div className="w3-input w3-border">
-                <label>Password:</label>
-                <input
-                  type="text"
-                  name="password"
-                  id="password"
-                  onChange={this.handleChange}
-                  value={this.state.passWord}
-                  placeholder={this.state.passWord} ></input>
-              </div>
-
+              
               <div className="footer">
                 <center><button onClick={this.save.bind(this)} className="btn btn-success">Save</button></center>
               </div>

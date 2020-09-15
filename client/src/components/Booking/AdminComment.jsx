@@ -43,8 +43,8 @@ class AdminComment extends Component {
         rating: this.state.rating,
       };
       userService.postReview(id, obj)
-          .then(alert('Comment successfully'))
-          .catch((error) => alert(error))
+        .then(alert('Comment successfully'))
+        .catch((error) => alert(error))
     } else {
       const id = this.state.customerId;
       const reviewId = this.state.reviewId;
@@ -53,17 +53,20 @@ class AdminComment extends Component {
         rating: this.state.rating,
       };
       userService.editReview(id, reviewId, obj)
-          .then((res) => console.log(res.data));
-    }
-  }
-
-  delete(id, reviewId) {
-    if (window.confirm('Do you want to cancel?')) {
-      userService
-        .deleteReview(id, reviewId)
         .then((res) => console.log(res.data));
     }
   }
+
+ 
+  delete(customerId,reviewId) {
+    if (window.confirm('Do you want to cancel?')) {
+      reviewService
+        .deleteReview(customerId,reviewId)
+        .then(() => this.fetchData());
+      
+    }
+  }
+  
   edit(reviewId, comment, rating) {
     this.setState({
       reviewId: reviewId,
@@ -80,7 +83,7 @@ class AdminComment extends Component {
     });
   }
   render() {
-    console.log(this.state.reviewList);
+    
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
@@ -92,85 +95,53 @@ class AdminComment extends Component {
             <div className="w3-container w3-display-container w3-padding-16">
               <h2 className="w3-text-gray">
                 <strong>
-                  <center>Rating the Service</center>
+                  <center>Reply The Customers</center>
                 </strong>
               </h2>
-
-              <div className="form">
-                <div className="row">
-                  <div className="w3-padding">
-                    <div>
-                      <label>Comment</label>
-                    </div>
-
-                    <textarea
-                      id="comment"
-                      name="comment"
-                      value={this.state.comment}
-                      onChange={this.handleChange}
-                    />
-                  </div>
+              <div className="w3-padding">
+                <div>
+                  <label>Comment</label>
                 </div>
 
-                <div className="w3-padding">
-                  <div className="row">
-                    <div className="col-25">
-                      <label>Rating</label>
-                    </div>
-                    <div className="col-75">
-                      <select
-                        id="rating"
-                        name="rating"
-                        value={this.state.rating}
-                        onChange={this.handleChange}
-                      >
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+                <textarea
+                  id="comment"
+                  name="comment"
+                  value={this.state.comment}
+                  onChange={this.handleChange}
+                />
               </div>
-            </div>
-            <div className="footer">
-              <center></center>
+              <div className="footer">
+                <center>
+                  <button onClick={this.save} className="w3-button w3-green">
+                    Save
+                    </button>
+                </center>
+              </div>
             </div>
           </div>
           <div className="w3-main w3-white" style={{ marginLeft: 360 }}>
             <div className="w3-container">
               <div>
-                <div className="w3-content w3-border-left w3-border-right">
-                  <table className="w3-table-all">
-                    <thead>
-                      <tr>
-                        <th>Customer</th>
-                        <th>Rating</th>
-                        <th>Comment</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.reviewList.map((review, index) => (
-                        <tr key={index}>
-                          <td>{review.account.firstName} {review.account.lastName}</td>
-                          <td>{review.rating}</td>
-                          <td>{review.comment}</td>
-                          <td>
-                            <button
-                              className="btn-success w3-padding"
-                              onClick={this.edit.bind(
-                                this,
-                                review.id,
-                                review.comment,
-                                review.rating
-                              )}
-                            >
-                              Edit
-                            </button>
-                            <button
+                {this.state.reviewList.map((review, index) => (
+
+                  <tr key={index}>
+                    <br></br>
+                    <div className="w3-container">
+                      <div className="dialogbox">
+                        <p><b>Name:</b> {review.account.firstName} {review.account.lastName}</p>
+                        <p><b>Rating</b>: {review.rating} star</p>
+                        <div className="body">
+                          <span className="tip tip-up" />
+                          <textarea style={{ width: 500, height: 100 }}>
+
+                            {review.comment}
+
+                          </textarea>
+                        </div>
+                      </div>
+                     
+                    </div>
+                    <button
                               className="btn-danger w3-padding"
                               onClick={this.delete.bind(
                                 this,
@@ -180,18 +151,12 @@ class AdminComment extends Component {
                             >
                               Delete
                             </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <button
-                    className="w3-button w3-green"
-                    onClick={this.saving.bind(this)}
-                  >
-                    Save
-                  </button>
-                </div>
+
+
+                    <hr></hr>
+                  </tr>
+
+                ))}
               </div>
             </div>
           </div>

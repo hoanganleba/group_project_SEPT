@@ -2,7 +2,6 @@ import React from "react";
 import "../../w3school.css";
 import { Link } from "react-router-dom";
 import userService from '../../services/userService';
-const url = "";
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ export default class Profile extends React.Component {
   }
   componentDidMount() {
     return this.fetchData();
-    window.location.reload()
+   
   }
 
 
@@ -44,7 +43,7 @@ export default class Profile extends React.Component {
   render() {
     return (
       <div style={{ background: "grey" }}>
-        <div className="w3-content" style={{ width: 500 }}>
+        <div className="w3-content" style={{ width: 400 }}>
           <div class="w3-white w3-text-black w3-card-4">
             <div class="w3-display-container">
               <center><img
@@ -60,15 +59,24 @@ export default class Profile extends React.Component {
             <div class="w3-row-padding">
               <div className='w3-twothird'>
                 <br></br>
+
+                <div className="fa fa-pencil w3-button"><Link to={"/changepassword"}> Change Password</Link></div>
+                <br></br>
+                <hr></hr>
                 <p>
                   <i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>
                   {this.state.job}
-                        </p>
+                </p>
+                <br></br>
+                <p>
+                  <i class="fa fa-venus-mars fa-fw w3-margin-right w3-large w3-text-teal"></i>
+                  {this.state.gender}
+                </p>
                 <br></br>
                 <p>
                   <i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>
                   {this.state.address}
-                        </p>
+                </p>
                 <br></br>
                 <p>
                   <i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>
@@ -78,29 +86,24 @@ export default class Profile extends React.Component {
                 <p>
                   <i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>
                   {this.state.phone}
-                        </p>
+                </p>
               </div>
               <div className='w3-third'>
-                <div className="fa fa-pencil w3-button"><Link to={"/editprofile"}> Edit Profile</Link></div>
-              </div>
-            </div>
-            <hr></hr>
-            <div class="w3-row-padding">
-              <div className='w3-twothird'>
                 <br></br>
-                <p className="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>User Name:</b></p>
-                <p>{this.state.userName} {console.log('333' + this.state.userName)}</p>
-
-                <p className="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Password:</b></p>
-                <p> {this.state.passWord} {console.log('123' + this.state.passWord)}</p>
-              </div>
-              <div className='w3-third'>
-                <div className="fa fa-pencil w3-button"><Link to={"/editprofile"}> Change Password</Link></div>
+                <div className="fa fa-pencil w3-button"><Link to={"/editprofile"}> Edit Profile</Link></div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
     );
+  }
+    open() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  close() {
+    document.getElementById("mySidebar").style.display = "none";
   }
 }
