@@ -68,7 +68,7 @@ class BookingForm extends Component {
       return <Redirect to={this.state.redirect} />;
     }
     return (
-      <div className="w3-content w3-border-left w3-border-right">
+      <div className="w3-content border-left border-right">
         <div
           className="w3-sidebar w3-light-grey w3-collapse"
           style={{ zIndex: 3, width: 260 }}
@@ -94,7 +94,7 @@ class BookingForm extends Component {
                     placeholder="hh/mm"
                     required
                   />
-
+                  <br/>
                   <p>
                     <label>
                       <i className="fa fa-calendar-o" /> Check Out
@@ -130,12 +130,14 @@ class BookingForm extends Component {
                   </select>
                 </div>
                 <div className="footer">
+                  <center>
                   <button
                       className="w3-button w3-green"
                       onClick={this.save.bind(this)}
                       
                   >Submit
                   </button>
+                  </center>
                 </div>
               </div>
             </div>

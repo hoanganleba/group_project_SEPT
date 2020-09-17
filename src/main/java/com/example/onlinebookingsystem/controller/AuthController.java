@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://online-booking-sept.s3-website-ap-southeast-1.amazonaws.com")
 public class AuthController {
 
     @Autowired

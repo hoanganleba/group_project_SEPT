@@ -1,0 +1,9 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "hoanganleba146/online-booking"
+  },
+  "Ports": [{
+    "ContainerPort": "8080"
+  }]
+}

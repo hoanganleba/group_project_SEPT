@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://online-booking-sept.s3-website-ap-southeast-1.amazonaws.com")
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
