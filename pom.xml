@@ -12,6 +12,7 @@
 	<artifactId>online-booking-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>online-booking-system</name>
+	<packaging>jar</packaging>
 	<description>SEPT project using Spring Boot and React</description>
 
 	<properties>
