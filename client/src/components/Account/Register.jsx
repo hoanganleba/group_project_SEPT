@@ -9,6 +9,10 @@ class Register extends React.Component {
       email: '',
       userName: '',
       password: '',
+      address: '',
+      gender: '',
+      job: '',
+      phone: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -20,12 +24,18 @@ class Register extends React.Component {
   }
 
   save() {
+   
+   
     const obj = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
       userName: this.state.userName,
       password: this.state.password,
+      address: this.state.address,
+      gender: this.state.gender,
+      job: this.state.job,
+      phone: this.state.phone,
     };
     authService
       .signUp(obj)

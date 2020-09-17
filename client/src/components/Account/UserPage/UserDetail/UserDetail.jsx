@@ -26,7 +26,11 @@ class UserDetail extends React.Component {
         this.setState(obj);
     }
       async fetchData() {
+<<<<<<< HEAD
         const { data } = await userService.getUserDetails(2);
+=======
+        const { data } = await userService.get();
+>>>>>>> frontend
 
         return this.setState({
           details: data,

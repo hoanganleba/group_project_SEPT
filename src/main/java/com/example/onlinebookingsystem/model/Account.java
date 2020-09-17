@@ -26,6 +26,18 @@ public class Account {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "job")
+    private String job;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private Number phone;
+
+    @Column(name = "gender")
+    private String gender;
+
     @Column(name = "user_name")
     private String userName;
 
@@ -87,6 +99,38 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Number getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Number phone) {
+        this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getUserName() {

@@ -5,7 +5,6 @@ import lombok.ToString;
 import net.minidev.json.JSONObject;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "booking")

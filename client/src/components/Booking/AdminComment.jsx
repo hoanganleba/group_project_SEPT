@@ -13,8 +13,13 @@ class AdminComment extends Component {
       reviewId: 0,
       addNew: true,
       comment: '',
+<<<<<<< HEAD
       rating: '',
       customerId: 0,
+=======
+      rating: 1,
+      customerId: [],
+>>>>>>> frontend
     };
     this.handleChange = this.handleChange.bind(this);
     this.saving = this.saving.bind(this);
@@ -43,8 +48,13 @@ class AdminComment extends Component {
         rating: this.state.rating,
       };
       userService.postReview(id, obj)
+<<<<<<< HEAD
           .then(alert('Comment successfully'))
           .catch((error) => alert(error))
+=======
+        .then(alert('Comment successfully'))
+        .catch((error) => alert(error))
+>>>>>>> frontend
     } else {
       const id = this.state.customerId;
       const reviewId = this.state.reviewId;
@@ -53,6 +63,7 @@ class AdminComment extends Component {
         rating: this.state.rating,
       };
       userService.editReview(id, reviewId, obj)
+<<<<<<< HEAD
           .then((res) => console.log(res.data));
     }
   }
@@ -64,6 +75,22 @@ class AdminComment extends Component {
         .then((res) => console.log(res.data));
     }
   }
+=======
+        .then((res) => console.log(res.data));
+    }
+  }
+
+ 
+  delete(customerId,reviewId) {
+    if (window.confirm('Do you want to cancel?')) {
+      reviewService
+        .deleteReview(customerId,reviewId)
+        .then(() => this.fetchData());
+      
+    }
+  }
+  
+>>>>>>> frontend
   edit(reviewId, comment, rating) {
     this.setState({
       reviewId: reviewId,
@@ -80,7 +107,11 @@ class AdminComment extends Component {
     });
   }
   render() {
+<<<<<<< HEAD
     console.log(this.state.reviewList);
+=======
+    
+>>>>>>> frontend
     return (
       <div>
         <div className="w3-content w3-border-left w3-border-right">
@@ -92,6 +123,7 @@ class AdminComment extends Component {
             <div className="w3-container w3-display-container w3-padding-16">
               <h2 className="w3-text-gray">
                 <strong>
+<<<<<<< HEAD
                   <center>Rating the Service</center>
                 </strong>
               </h2>
@@ -137,11 +169,36 @@ class AdminComment extends Component {
             </div>
             <div className="footer">
               <center></center>
+=======
+                  <center>Reply The Customers</center>
+                </strong>
+              </h2>
+              <div className="w3-padding">
+                <div>
+                  <label>Comment</label>
+                </div>
+
+                <textarea
+                  id="comment"
+                  name="comment"
+                  value={this.state.comment}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="footer">
+                <center>
+                  <button onClick={this.save} className="w3-button w3-green">
+                    Save
+                    </button>
+                </center>
+              </div>
+>>>>>>> frontend
             </div>
           </div>
           <div className="w3-main w3-white" style={{ marginLeft: 360 }}>
             <div className="w3-container">
               <div>
+<<<<<<< HEAD
                 <div className="w3-content w3-border-left w3-border-right">
                   <table className="w3-table-all">
                     <thead>
@@ -169,6 +226,28 @@ class AdminComment extends Component {
                               Edit
                             </button>
                             <button
+=======
+                {this.state.reviewList.map((review, index) => (
+
+                  <tr key={index}>
+                    <br></br>
+                    <div className="w3-container">
+                      <div className="dialogbox">
+                        <p><b>Name:</b> {review.account.firstName} {review.account.lastName}</p>
+                        <p><b>Rating</b>: {review.rating} star</p>
+                        <div className="body">
+                          <span className="tip tip-up" />
+                          <textarea style={{ width: 500, height: 100 }}>
+
+                            {review.comment}
+
+                          </textarea>
+                        </div>
+                      </div>
+                     
+                    </div>
+                    <button
+>>>>>>> frontend
                               className="btn-danger w3-padding"
                               onClick={this.delete.bind(
                                 this,
@@ -178,6 +257,7 @@ class AdminComment extends Component {
                             >
                               Delete
                             </button>
+<<<<<<< HEAD
                           </td>
                         </tr>
                       ))}
@@ -190,6 +270,14 @@ class AdminComment extends Component {
                     Save
                   </button>
                 </div>
+=======
+
+
+                    <hr></hr>
+                  </tr>
+
+                ))}
+>>>>>>> frontend
               </div>
             </div>
           </div>

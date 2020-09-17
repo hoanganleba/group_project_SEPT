@@ -44,23 +44,26 @@ export default class Bookinghistory extends Component {
       rating: this.state.rating,
     };
     if(this.state.addNew) {
-      userService.postReview(customerId, obj)
+      reviewService.postReview(customerId, obj)
           .then(alert('Comment successfully'))
           .then(this.fetchData())
           .catch((error) => alert(error))
+          window.location.reload()
     }
     else {
-      userService.editReview(customerId, reviewId, obj)
+      reviewService.editReview(customerId, reviewId, obj)
           .then(alert('Edit comment successfully'))
           .then(this.fetchData())
           .catch((error) => alert(error))
+          window.location.reload()
     }
   }
   delete(customerId, reviewId) {
     if (window.confirm('Do you want to delete?')) {
-      userService.deleteReview(customerId, reviewId)
+      reviewService.deleteReview(customerId, reviewId)
           .then(alert('Delete comment successfully'))
           .then(this.fetchData())
+          window.location.reload()
           .catch((error) => alert(error))
     }
   }
@@ -82,7 +85,7 @@ export default class Bookinghistory extends Component {
             id="mySidebar"
           >
             <div className="w3-container w3-display-container w3-padding-16">
-              <h2 className="w3-text-gray">
+              <h2 className="w3-text-grey">
                 <strong style={{ textAlign: 'center' }}>
                   Rating the Service
                 </strong>
@@ -125,6 +128,12 @@ export default class Bookinghistory extends Component {
                     </div>
                   </div>
                 </div>
+                <button
+                    className="w3-button w3-green"
+                    onClick={this.save.bind(this)}
+                  >
+                    Save
+                  </button>
               </div>
             </div>
             <div className="footer">
@@ -134,56 +143,36 @@ export default class Bookinghistory extends Component {
           <div className="w3-main w3-white" style={{ marginLeft: 360 }}>
             <div className="w3-container">
               <div>
-                <div className="w3-content w3-border-left w3-border-right">
-                  <table className="w3-table-all">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Rating</th>
-                        <th>Comment</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
+              
+                  
+               
                     <tbody>
                       {this.state.reviewList.map((review, index) => (
+                        
                         <tr key={index}>
-                          <td>{review.account.firstName} {review.account.lastName}</td>
-                          <td>{review.rating}</td>
-                          <td>{review.comment}</td>
-                          <td>
-                            <button
-                              className="btn-success w3-padding"
-                              onClick={this.edit.bind(
-                                this,
-                                review.id,
-                                review.comment,
-                                review.rating
-                              )}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              className="btn-danger w3-padding"
-                              onClick={this.delete.bind(
-                                this,
-                                this.state.customerId,
-                                review.id
-                              )}
-                            >
-                              Delete
-                            </button>
-                          </td>
+                              <div className="w3-container">
+                      <div className="dialogbox">
+                        <p><b>Name:</b> {review.account.firstName} {review.account.lastName}</p>
+                        <p><b>Rating</b>: {review.rating} star</p>
+                        <div className="body">
+                          <span className="tip tip-up" />
+                          <textarea style={{ width: 500, height: 100 }}>
+
+                            {review.comment}
+
+                          </textarea>
+                        </div>
+                      </div>
+                     
+                    </div>
+                         
+                     
                         </tr>
                       ))}
                     </tbody>
-                  </table>
-                  <button
-                    className="w3-button w3-green"
-                    onClick={this.save.bind(this)}
-                  >
-                    Save
-                  </button>
-                </div>
+                 
+             
+              
               </div>
             </div>
           </div>

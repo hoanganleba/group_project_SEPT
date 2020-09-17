@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
@@ -16,7 +17,16 @@ class BookingForm extends Component {
       startDateTime: '',
       endDateTime: '',
       type: 'Normal',
+<<<<<<< HEAD
+<<<<<<<< HEAD:client/src/components/Booking/BookingForm.jsx
+========
+      status:'Pending',
+>>>>>>>> frontend:client/src/components/Booking/Bookingform.jsx
+=======
+      status:'Pending',
+>>>>>>> frontend
       addNew: true,
+      redirect: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
@@ -42,7 +52,10 @@ class BookingForm extends Component {
       ),
       endDateTime: moment(this.state.endDateTime).format('YYYY-MM-DD hh:mm:ss'),
       type: this.state.type,
+      status:this.state.status,
     };
+<<<<<<< HEAD
+<<<<<<<< HEAD:client/src/components/Booking/BookingForm.jsx
 
     bookingService
       .postBooking(obj)
@@ -50,11 +63,35 @@ class BookingForm extends Component {
         alert('Booking successfully ');
       })
       .catch((err) => alert(err.response.data.message));
+========
+=======
+>>>>>>> frontend
+    bookingService
+      .postBooking(obj)
+      .then(() => {
+        alert('Booking successfully');
+        this.setState({redirect: '/history'})
+      })
+      .catch((err) => {
+        if(err.response.status === 403) {
+          alert(err.response.data.message)
+        }
+        else {
+          alert("There is something wrong with the server")
+        }
+      });
+<<<<<<< HEAD
+>>>>>>>> frontend:client/src/components/Booking/Bookingform.jsx
+=======
+>>>>>>> frontend
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
-      <div className="w3-content w3-border-left w3-border-right">
+      <div className="w3-content border-left border-right">
         <div
           className="w3-sidebar w3-light-grey w3-collapse"
           style={{ zIndex: 3, width: 260 }}
@@ -80,7 +117,7 @@ class BookingForm extends Component {
                     placeholder="hh/mm"
                     required
                   />
-
+                  <br/>
                   <p>
                     <label>
                       <i className="fa fa-calendar-o" /> Check Out
@@ -117,12 +154,12 @@ class BookingForm extends Component {
                 </div>
                 <div className="footer">
                   <center>
-                    <button
+                  <button
                       className="w3-button w3-green"
                       onClick={this.save.bind(this)}
-                    >
-                      Submit
-                    </button>
+                      
+                  >Submit
+                  </button>
                   </center>
                 </div>
               </div>

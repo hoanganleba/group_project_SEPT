@@ -11,6 +11,7 @@ class List extends React.Component {
       startDateTime: '',
       endDateTime: '',
       type: '',
+      status:'',
     };
   }
   async fetchData() {
@@ -28,7 +29,7 @@ class List extends React.Component {
     if (window.confirm('Do you want to cancel?')) {
       bookingService
         .cancelBooking(bookingId)
-        .then(() => window.location.reload());
+        
       return this.fetchData();
     }
   }
@@ -42,6 +43,7 @@ class List extends React.Component {
                 <th>Check in</th>
                 <th>Check out</th>
                 <th>Court Type</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -51,6 +53,7 @@ class List extends React.Component {
                   <td>{book.startDateTime}</td>
                   <td>{book.endDateTime}</td>
                   <td>{book.type}</td>
+                  <td>{book.status}</td>
                   <td>
                     <button
                       className="btn-danger w3-padding"

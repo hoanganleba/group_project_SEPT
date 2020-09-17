@@ -1,91 +1,68 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+  
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import authService from '../../services/authService';
 import userService from '../../services/userService';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userName: '',
-      password: '',
-      roles: '',
-      redirect: null,
-    };
-  }
-  fetchData() {
-    return userService.get().then((res) => {
-      this.setState({ roles: res.data.roles });
-    });
-  }
+import setAuthorizationToken from '../../services/setAuthorizationToken';
 
-  loginUser() {
+function Login(props) {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function loginUser() {
     const obj = {
-      userName: this.state.userName,
-      password: this.state.password,
+      userName: userName,
+      password: password,
     };
-    authService
-      .signIn(obj)
-      .then((res) => {
-        cookies.set('jwt-token', res.data, { path: '/' });
-        this.fetchData();
-      })
-      .then(() => {
-        if (this.state.roles === 'ROLE_USER') {
-          this.setState({ roles: '' });
-          this.setState({ redirect: '/booking' });
-        } else if (this.state.roles === 'ROLE_ADMIN') {
-          this.setState({ roles: '' });
-          this.setState({ redirect: '/adminpage' });
-        } else {
-          alert('Access denied');
-        }
-      });
-  }
-
-  render() {
-    if (this.state.redirect && cookies.get('jwt-token')) {
-      return <Redirect to={this.state.redirect} />;
+    const { data } = await authService.signIn(obj);
+    localStorage.setItem('token', data);
+    setAuthorizationToken(data);
+    const response = await userService.get();
+    const userData = response.data;
+    if (userData.roles === 'ROLE_USER') {
+      props.history.push('/booking');
     }
-    return (
-      <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Login</div>
-        <div className="content">
-          <div className="form">
-            <div className="form-group">
-              <label>UserName:</label>
-              <input
-                onChange={(e) => this.setState({ userName: e.target.value })}
-                value={this.state.userName}
-                type="text"
-                name="userName"
-                id="userName"
-              />
-            </div>
-            <div className="form-group">
-              <label>Password:</label>
-              <input
-                onChange={(e) => this.setState({ password: e.target.value })}
-                value={this.state.password}
-                type="password"
-                name="password"
-                id="password"
-              />
-            </div>
+    if (userData.roles === 'ROLE_ADMIN') {
+      props.history.push('/adminPage');
+    }
+  }
+  return (
+    <div className="base-container">
+      <div className="header">Login</div>
+      <div className="content">
+        <div className="form">
+          <div className="form-group">
+            <label>UserName:</label>
+            <input
+              onChange={(e) => setUserName(e.target.value)}
+              value={userName}
+              type="text"
+              name="userName"
+              id="userName"
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type="password"
+              name="password"
+              id="password"
+            />
           </div>
         </div>
-        <div className="footer">
-          <button
-            onClick={() => this.loginUser()}
-            className="btn btn-large btn-block btn-success"
-          >
-            Login
-          </button>
-        </div>
       </div>
-    );
-  }
+      <div className="footer">
+        <button
+          onClick={() => loginUser()}
+          className="w3-btn w3-block w3-green w3-large"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default Login;
+export default withRouter(Login);

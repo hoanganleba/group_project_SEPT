@@ -1,18 +1,12 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+
 function PrivateRoute({ children, ...rest }) {
+  const token = localStorage.getItem('token');
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        cookies.get("jwt-token") ? (
-          children
-        ) : (
-          <Redirect to={{ path: "/", state: { from: location } }} />
-        )
-      }
+      render={() => (token ? children : <Redirect to={{ path: '/' }} />)}
     />
   );
 }

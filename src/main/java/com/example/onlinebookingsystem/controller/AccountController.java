@@ -15,7 +15,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://online-booking-sept.s3-website-ap-southeast-1.amazonaws.com")
 public class AccountController {
 
     private final AccountService accountService;
@@ -45,6 +45,10 @@ public class AccountController {
             profile.setEmail(profileReq.getEmail());
             profile.setFirstName(profileReq.getFirstName());
             profile.setLastName(profileReq.getLastName());
+            profile.setAddress(profileReq.getAddress());
+            profile.setJob(profileReq.getJob());
+            profile.setPhone(profileReq.getPhone());
+            profile.setGender(profileReq.getGender());
             profile.setPassword(passwordEncoder.encode(profile.getPassword()));
             accountService.save(profile);
             return new ResponseEntity<>(account, HttpStatus.OK);
